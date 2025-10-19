@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class PegManager : MonoBehaviour
 {
-    public static PegManager Instance;
+    public static PegManager Instance { get; private set; }
 
     [Header("Peg Settings")]
     public Peg pegPrefab;
+    public GameObject upgradeMenu;
+    public PegUpgradeUI upgradeUI;
+
+    private Peg selectedPeg;
+
     public int rows = 6;
     public int columns = 6;
     public float spacingX = 1.0f;
@@ -27,16 +32,56 @@ public class PegManager : MonoBehaviour
             return;
         }
         Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
+
+    public void SelectPeg(Peg peg)
+    {
+        selectedPeg = peg;
+
+        if (upgradeMenu != null)
+        {
+            upgradeMenu.SetActive(true);
+        }
+
+        if (upgradeUI != null)
+        {
+            upgradeUI.OpenMenu(peg);
+        }
+    }
+
+    public List<PegData> GetAllPegData()
+    {
+        List<PegData> dataList = new List<PegData>();
+
+        foreach (Peg peg in allPegs)
+        {
+            if (peg != null) dataList.Add(peg.ToData());
+        }
+        return dataList;
+    }
+
+    public void CloseUpgradeMenu()
+    {
+        selectedPeg = null;
+        if (upgradeMenu != null)
+            upgradeMenu.SetActive(false);
+    }
+
+    public Peg GetSelectedPeg() => selectedPeg;
 
     private void Start()
     {
         GeneratePegGrid();
     }
 
-    public void GeneratePegGrid()
+    public void GeneratePegGrid(List<PegData> loadedPegData = null)
     {
         ClearExistingPegs();
+
+        int total = rows * columns;
+        int dataCount = loadedPegData != null ? loadedPegData.Count : 0;
+        int index = 0;
 
         for (int row = 0; row < rows; row++)
         {
@@ -49,7 +94,12 @@ public class PegManager : MonoBehaviour
                 );
 
                 Peg newPeg = Instantiate(pegPrefab, pos, Quaternion.identity, transform);
+                if (index < dataCount)
+                {
+                    newPeg.FromData(loadedPegData[index]);
+                }
                 allPegs.Add(newPeg);
+                index++;
             }
         }
     }
@@ -71,14 +121,6 @@ public class PegManager : MonoBehaviour
         foreach (var peg in allPegs)
         {
             peg.ResetPeg();
-        }
-    }
-
-    public void UpgradeAllPegs(float efficiencyBoost)
-    {
-        foreach (var peg in allPegs)
-        {
-            peg.UpgradeXPMultiplier();
         }
     }
 }

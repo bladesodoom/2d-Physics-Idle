@@ -9,6 +9,8 @@ public class Matter : MonoBehaviour
 
     [Header("Stat")]
     private float value = 1f;
+    private float mass = 1f;
+    private float damage = 1f;
 
     private void Awake()
     {
@@ -19,9 +21,10 @@ public class Matter : MonoBehaviour
         isConsumed = false;
     }
 
-    public void Initialize(float val)
+    public void Initialize(float val, float dmg)
     {
         value = val;
+        damage = dmg;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -37,8 +40,10 @@ public class Matter : MonoBehaviour
         }
         else if (collision.collider.CompareTag("Blackhole"))
         {
-            Blackhole.Instance.Absorb(value);
+            Blackhole.Instance.Absorb(mass);
+            CurrencyManager.Instance.AddCurrency(value);
             gameObject.SetActive(false);
+            MatterManager.Instance.RecycleMatter(this);
         }
     }
 }

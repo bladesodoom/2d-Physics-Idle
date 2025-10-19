@@ -1,18 +1,63 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Collider2D), typeof(Rigidbody2D))]
-public class Peg : MonoBehaviour
+public class Peg : MonoBehaviour, IPointerClickHandler
 {
     public SpriteRenderer sr;
     public float currencyValue = 1;
 
-    private int level = 1;
-    private float currentXP = 0;
-    private float xpNextLevel = 10;
+    public int pegID;
+    public int pegLevel = 1;
+    public float pegCurrentXP = 0;
+    public float pegXPNextLevel = 10;
 
-    private float xpGainMultiplier = 1f;
-    private float levelScaler = 1.25f;
-    private float currentXPValue = 1;
+    public float pegXPGainMultiplier = 1f;
+    public float pegLevelScaler = 1.25f;
+    public float pegCurrentXPValue = 1;
+
+    public float pegUpgradeCost = 10;
+    public float pegProductionBoost = 1;
+
+    public PegData ToData()
+    {
+        return new PegData
+        {
+            id = pegID,
+            pegPosition = transform.position,
+            level = pegLevel,
+            upgradeCost = pegUpgradeCost,
+            value = currencyValue,
+            currentXP = pegCurrentXP,
+            xpNextLevel = pegXPNextLevel,
+            xpGainMultiplier = pegXPGainMultiplier,
+            levelScaler = pegLevelScaler,
+            currentXPValue = pegCurrentXPValue,
+            productionBoost = pegProductionBoost,
+        };
+    }
+
+    public void FromData(PegData data)
+    {
+        pegID = data.id;
+        transform.position = data.pegPosition;
+        pegLevel = data.level;
+        pegUpgradeCost = data.upgradeCost;
+        currencyValue = data.value;
+        pegCurrentXP = data.currentXP;
+        pegXPNextLevel = data.xpNextLevel;
+        pegXPGainMultiplier = data.xpGainMultiplier;
+        pegLevelScaler = data.levelScaler;
+        pegCurrentXPValue = data.currentXPValue;
+        pegProductionBoost = data.productionBoost;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (EventSystem.current.IsPointerOverGameObject()) return;
+
+        PegManager.Instance.SelectPeg(this);
+    }
 
 
     private void Awake()
@@ -22,27 +67,36 @@ public class Peg : MonoBehaviour
 
     public void GainXP()
     {
-        currentXP += xpGainMultiplier * currentXPValue;
+        pegCurrentXP += pegXPGainMultiplier * pegCurrentXPValue;
         CheckLevelUp();
     }
 
-    public void UpgradeXPMultiplier()
+    public bool TryUpgrade()
     {
-        xpGainMultiplier += 0.05f;
+        if (CurrencyManager.Instance.TrySpend(pegUpgradeCost))
+        {
+            pegLevel++;
+            pegUpgradeCost *= 1.5f;
+            pegProductionBoost += 0.1f;
+            pegXPGainMultiplier += 0.05f;
+            currencyValue += 5;
+            return true;
+        }
+        return false;
     }
 
     public void ResetPeg()
     {
         currencyValue = 1;
-        currentXP = 0;
-        xpNextLevel = 10;
-        xpGainMultiplier = 1f;
-        currentXPValue = 1;
+        pegCurrentXP = 0;
+        pegXPNextLevel = 10;
+        pegXPGainMultiplier = 1f;
+        pegCurrentXPValue = 1;
     }
 
     private void CheckLevelUp()
     {
-        if (currentXP >= xpNextLevel)
+        if (pegCurrentXP >= pegXPNextLevel)
         {
             LevelUp();
         }
@@ -50,7 +104,7 @@ public class Peg : MonoBehaviour
 
     private void LevelUp()
     {
-        level++;
-        xpNextLevel *= levelScaler;
+        pegLevel++;
+        pegXPNextLevel *= pegLevelScaler;
     }
 }

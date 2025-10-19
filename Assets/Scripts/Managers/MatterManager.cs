@@ -9,13 +9,19 @@ public class MatterManager : MonoBehaviour
     public Matter matterPrefab;
     public BoxCollider2D spawnArea;
     public int poolSize = 50;
+    public int maxActiveMatter = 5;
 
     [Header("Spawn Settings")]
     public float spawnInterval = 1f;
+    public float matterScale = 3f;
 
     [Header("Stats")]
     public float baseValue = 1f;
+    public float matterDamage = 1f;
 
+    public float currentValue = 1f;
+
+    private int currentActiveMatter;
     private float spawnTimer;
     private Queue<Matter> matterPool = new Queue<Matter>();
 
@@ -27,6 +33,7 @@ public class MatterManager : MonoBehaviour
             return;
         }
         Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
@@ -37,7 +44,7 @@ public class MatterManager : MonoBehaviour
     private void Update()
     {
         spawnTimer += Time.deltaTime;
-        if (spawnTimer >= spawnInterval)
+        if (spawnTimer >= spawnInterval && currentActiveMatter < maxActiveMatter)
         {
             SpawnMatter();
             spawnTimer = 0f;
@@ -49,6 +56,8 @@ public class MatterManager : MonoBehaviour
         for (int i = 0; i < poolSize; i++)
         {
             Matter newMatter = Instantiate(matterPrefab, spawnArea.transform);
+            Transform t = newMatter.transform;
+            t.SetParent(this.transform);
             newMatter.gameObject.SetActive(false);
             matterPool.Enqueue(newMatter);
         }
@@ -59,13 +68,15 @@ public class MatterManager : MonoBehaviour
         Vector2 randomPos = GetRandomPointInArea();
 
         Matter matter = GetAvailableMatter();
-
+        matter.Initialize(baseValue, matterDamage);
         Transform t = matter.transform;
         t.SetParent(null);
         t.position = randomPos;
-        t.localScale = new Vector3(3, 3, 1);
+        t.localScale = new Vector3(matterScale, matterScale, 1);
         t.SetParent(transform, true);
         matter.gameObject.SetActive(true);
+        currentActiveMatter++;
+
     }
 
     private Vector2 GetRandomPointInArea()
@@ -78,7 +89,10 @@ public class MatterManager : MonoBehaviour
 
     private Matter GetAvailableMatter()
     {
-        if (matterPool.Count > 0) return matterPool.Dequeue();
+        if (matterPool.Count > 0)
+        {
+            return matterPool.Dequeue();
+        }
         else
         {
             return Instantiate(matterPrefab, spawnArea.transform);
@@ -87,6 +101,8 @@ public class MatterManager : MonoBehaviour
 
     public void RecycleMatter(Matter matter)
     {
+        matter.transform.position = new Vector3(0, 50, 0);
+        currentActiveMatter--;
         matter.gameObject.SetActive(false);
         matterPool.Enqueue(matter);
     }
@@ -94,5 +110,10 @@ public class MatterManager : MonoBehaviour
     public void SetSpawnInterval(float interval)
     {
         spawnInterval = interval;
+    }
+
+    public void IncreaseMaxActiveMatter()
+    {
+        maxActiveMatter += 5;
     }
 }

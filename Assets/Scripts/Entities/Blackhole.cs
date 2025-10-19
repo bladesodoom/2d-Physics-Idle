@@ -1,19 +1,25 @@
+using System;
+
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
 public class Blackhole : MonoBehaviour
 {
-    public static Blackhole Instance;
+    public static Blackhole Instance { get; private set; }
+
+    public event Action OnStatsChanged;
 
     [Header("Stats")]
-    private int collapseCount = 0;
-    private float currentMass = 0f;
-    private float collapseMass = 500f;
-    private float collapseMassScaler = 1.25f;
+    public int collapseCount = 0;
+
+    public float currentMass = 0f;
+    public float collapseMass = 500f;
+    public float collapseMassScaler = 1.25f;
 
     [Header("Collapse Rewards")]
-    private float singularityPoints = 0f;
-    private float spConversionrate = 0.2f;
+    public float singularityPoints = 0f;
+    public float spConversionRate = 0.6f;
+
 
     private void Awake()
     {
@@ -28,10 +34,12 @@ public class Blackhole : MonoBehaviour
     public void Absorb(float amount)
     {
         currentMass += amount;
+        OnStatsChanged?.Invoke();
 
         if (currentMass.CompareTo(collapseMass) >= 0)
         {
             Collapse();
+            OnStatsChanged?.Invoke();
         }
     }
 
@@ -39,8 +47,12 @@ public class Blackhole : MonoBehaviour
     {
         collapseCount++;
 
-        singularityPoints += currentMass * spConversionrate;
+        singularityPoints += currentMass * spConversionRate;
         currentMass = 0f;
         collapseMass *= collapseMassScaler;
+        OnStatsChanged?.Invoke();
+
+        CurrencyManager.Instance.currentCurrency = 0;
+        PegManager.Instance.ResetAllPegs();
     }
 }
