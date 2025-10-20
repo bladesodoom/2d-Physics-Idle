@@ -14,7 +14,7 @@ public class MatterManager : MonoBehaviour
 
     [Header("Spawn Settings")]
     public float spawnInterval = 1f;
-    public float matterScale = 2f;
+    public float matterScale = 2.5f;
 
     [Header("Stats")]
     public float baseValue = 1f;

@@ -7,8 +7,7 @@ using UnityEngine.EventSystems;
 public class Peg : MonoBehaviour, IPointerClickHandler
 {
     public SpriteRenderer sr;
-    public Color damagedColor = Color.red;
-    public float damageFlashTime = 0.1f;
+    public float damageFlashTime = 0.08f;
 
     public int pegID;
 
@@ -18,7 +17,10 @@ public class Peg : MonoBehaviour, IPointerClickHandler
     public float pegXPGainMultiplier = 1f;
     public float pegLevelScaler = 1.25f;
     public float pegCurrentXPValue = 1;
-    public float pegUpgradeCost = 10;
+
+    public int pegPointsPerLevel = 1;
+    public int pegUpgradePoints = 0;
+
 
     public float basePegValue = 1;
     public float pegValue = 1;
@@ -30,6 +32,15 @@ public class Peg : MonoBehaviour, IPointerClickHandler
     public float respawnDelay = 10f;
     public bool isRespawning = false;
 
+    public Color defaultColor;
+    private Coroutine flashRoutine;
+
+    private void Awake()
+    {
+        sr = GetComponent<SpriteRenderer>();
+        defaultColor = sr.color;
+        currentHP = maxHP;
+    }
 
     public PegData ToData()
     {
@@ -38,7 +49,6 @@ public class Peg : MonoBehaviour, IPointerClickHandler
             id = pegID,
             pegPosition = transform.position,
             level = pegLevel,
-            upgradeCost = pegUpgradeCost,
             value = pegValue,
             currentXP = pegCurrentXP,
             xpNextLevel = pegXPNextLevel,
@@ -53,7 +63,6 @@ public class Peg : MonoBehaviour, IPointerClickHandler
         pegID = data.id;
         transform.position = data.pegPosition;
         pegLevel = data.level;
-        pegUpgradeCost = data.upgradeCost;
         pegValue = data.value;
         pegCurrentXP = data.currentXP;
         pegXPNextLevel = data.xpNextLevel;
@@ -65,41 +74,41 @@ public class Peg : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         if (EventSystem.current.IsPointerOverGameObject()) return;
-
         PegManager.Instance.SelectPeg(this);
-    }
-
-
-    private void Awake()
-    {
-        sr = GetComponent<SpriteRenderer>();
-        currentHP = maxHP;
     }
 
     public void TakeDamage(float amount)
     {
         if (isRespawning) return;
 
+        FloatingTextManager.Instance.ShowFloatingText(
+            transform.position,
+            $"+{pegValue}"
+        );
+
         currentHP -= amount;
+
         if (currentHP <= 0)
         {
             Die();
         }
         else
         {
-            StartCoroutine(FlashDamage());
+            if (flashRoutine != null)
+                StopCoroutine(flashRoutine);
+            flashRoutine = StartCoroutine(FlashDamage());
         }
     }
 
     private IEnumerator FlashDamage()
     {
-        if (sr != null)
-        {
-            Color original = sr.color;
-            sr.color = damagedColor;
-            yield return new WaitForSeconds(damageFlashTime);
-            sr.color = original;
-        }
+        if (sr == null) yield break;
+        sr.color = new Color(120, 0, 0);
+        yield return new WaitForSeconds(damageFlashTime);
+
+        if (!isRespawning && sr != null)
+            sr.color = defaultColor;
+        flashRoutine = null;
     }
 
     private void Die()
@@ -107,38 +116,21 @@ public class Peg : MonoBehaviour, IPointerClickHandler
         if (isRespawning) return;
 
         isRespawning = true;
-        StopAllCoroutines();
-        sr.enabled = false;
+
+        if (flashRoutine != null)
+        {
+            StopCoroutine(flashRoutine);
+            flashRoutine = null;
+        }
+
+        if (sr != null)
+        {
+            sr.color = defaultColor;
+            sr.enabled = false;
+        }
 
         PegManager.Instance.ScheduleRespawn(this, respawnDelay);
         gameObject.SetActive(false);
-    }
-
-    private void RespawnPeg()
-    {
-        ResetPeg();
-        sr.color = Color.white;
-        gameObject.SetActive(true);
-        isRespawning = false;
-    }
-
-    public void GainXP()
-    {
-        pegCurrentXP += pegXPGainMultiplier * pegCurrentXPValue;
-        CheckLevelUp();
-    }
-
-    public bool TryUpgrade()
-    {
-        if (CurrencyManager.Instance.TrySpend(pegUpgradeCost))
-        {
-            pegLevel++;
-            pegUpgradeCost *= 1.5f;
-            pegXPGainMultiplier += 0.05f;
-            pegValue++;
-            return true;
-        }
-        return false;
     }
 
     public void ResetPeg()
@@ -149,6 +141,20 @@ public class Peg : MonoBehaviour, IPointerClickHandler
         pegXPNextLevel = 10;
         pegXPGainMultiplier = 1f;
         pegCurrentXPValue = 1;
+        pegUpgradePoints = 0;
+        pegPointsPerLevel = 1;
+
+        if (sr != null)
+        {
+            sr.color = defaultColor;
+            sr.enabled = true;
+        }
+    }
+
+    public void GainXP()
+    {
+        pegCurrentXP += pegXPGainMultiplier * pegCurrentXPValue;
+        CheckLevelUp();
     }
 
     private void CheckLevelUp()
@@ -162,6 +168,7 @@ public class Peg : MonoBehaviour, IPointerClickHandler
     private void LevelUp()
     {
         pegLevel++;
+        pegUpgradePoints += pegPointsPerLevel;
         pegXPNextLevel *= pegLevelScaler;
     }
 }

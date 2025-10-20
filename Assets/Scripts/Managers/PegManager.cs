@@ -80,6 +80,7 @@ public class PegManager : MonoBehaviour
         peg.gameObject.SetActive(true);
         peg.ResetPeg();
         peg.sr.enabled = true;
+        peg.sr.color = peg.defaultColor;
         peg.isRespawning = false;
     }
 

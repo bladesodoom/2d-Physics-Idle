@@ -19,14 +19,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2069201085934288948
-Transform:
+--- !u!224 &2069201085934288948
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1241704533787107662}
-  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 4, y: 4, z: 1}
@@ -34,6 +33,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1, y: 1}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &7339689372383545468
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -82,7 +86,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.47058824, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -141,7 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Peg
   sr: {fileID: 7339689372383545468}
-  currencyValue: 1
+  damageFlashTime: 0.1
   pegID: 0
   pegLevel: 1
   pegCurrentXP: 0
@@ -150,4 +154,13 @@ MonoBehaviour:
   pegLevelScaler: 1.25
   pegCurrentXPValue: 1
   pegUpgradeCost: 10
-  pegProductionBoost: 1
+  pegPointsPerLevel: 1
+  pegUpgradePoints: 0
+  basePegValue: 1
+  pegValue: 1
+  baseHP: 50
+  maxHP: 50
+  currentHP: 0
+  respawnDelay: 10
+  isRespawning: 0
+  defaultColor: {r: 0, g: 0, b: 0, a: 0}

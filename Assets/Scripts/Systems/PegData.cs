@@ -8,7 +8,6 @@ public class PegData
     public int id;
     public Vector3 pegPosition;
     public int level;
-    public float upgradeCost;
     public float value;
     public float currentXP;
     public float xpNextLevel;

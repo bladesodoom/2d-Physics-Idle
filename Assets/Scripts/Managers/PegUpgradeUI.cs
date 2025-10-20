@@ -10,7 +10,6 @@ public class PegUpgradeUI : MonoBehaviour
     [Header("UI Elements")]
     public GameObject panel;
     public TextMeshProUGUI levelText;
-    public TextMeshProUGUI upgradeCostText;
     public Button upgradeButton;
     public Button closeButton;
 
@@ -27,7 +26,6 @@ public class PegUpgradeUI : MonoBehaviour
 
         panel.SetActive(true);
 
-        upgradeButton.onClick.AddListener(OnUpgradeClicked);
         closeButton.onClick.AddListener(CloseMenu);
     }
 
@@ -43,22 +41,10 @@ public class PegUpgradeUI : MonoBehaviour
         currentPeg = null;
     }
 
-    private void OnUpgradeClicked()
-    {
-        if (currentPeg == null) return;
-
-        if (currentPeg.TryUpgrade())
-        {
-            UpdateUI();
-        }
-        return;
-    }
-
     private void UpdateUI()
     {
         if (currentPeg == null) return;
 
         levelText.text = $"Level: {currentPeg.pegLevel}";
-        upgradeCostText.text = $"Upgrade Cost: {currentPeg.pegUpgradeCost:F2}";
     }
 }
