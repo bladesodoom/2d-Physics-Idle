@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4085674710608038705}
   - component: {fileID: 7336355702604069487}
   - component: {fileID: 7993369409055270543}
-  - component: {fileID: 7144534014418290396}
+  - component: {fileID: 5971825200440585582}
   m_Layer: 0
   m_Name: Divider
   m_TagString: Untagged
@@ -80,7 +80,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -12
+  m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -138,7 +138,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!50 &7144534014418290396
+--- !u!50 &5971825200440585582
 Rigidbody2D:
   serializedVersion: 5
   m_ObjectHideFlags: 0

@@ -15,5 +15,4 @@ public class PegData
     public float xpGainMultiplier;
     public float levelScaler;
     public float currentXPValue;
-    public float productionBoost;
 }

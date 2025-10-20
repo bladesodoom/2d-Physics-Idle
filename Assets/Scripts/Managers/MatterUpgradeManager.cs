@@ -1,3 +1,5 @@
+using System;
+
 using UnityEngine;
 
 public class MatterUpgradeManager : MonoBehaviour
@@ -19,6 +21,8 @@ public class MatterUpgradeManager : MonoBehaviour
     public int baseValueLevel = 0;
     public int damageLevel = 0;
 
+    public event Action OnStatsChanged;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -33,26 +37,31 @@ public class MatterUpgradeManager : MonoBehaviour
     public void UpgradeMaxActiveMatter()
     {
         TryPurchaseUpgrade(ref maxActiveMatterLevel, ApplyMaxActiveMatterUpgrade);
+        OnStatsChanged?.Invoke();
     }
 
     public void UpgradeSpawnInterval()
     {
         TryPurchaseUpgrade(ref spawnIntervalLevel, ApplySpawnIntervalUpgrade);
+        OnStatsChanged?.Invoke();
     }
 
     public void UpgradeScale()
     {
         TryPurchaseUpgrade(ref scaleLevel, ApplyScaleUpgrade);
+        OnStatsChanged?.Invoke();
     }
 
     public void UpgradeBaseValue()
     {
         TryPurchaseUpgrade(ref baseValueLevel, ApplyBaseValueUpgrade);
+        OnStatsChanged?.Invoke();
     }
 
     public void UpgradeDamage()
     {
         TryPurchaseUpgrade(ref damageLevel, ApplyDamageUpgrade);
+        OnStatsChanged?.Invoke();
     }
 
     private void TryPurchaseUpgrade(ref int level, System.Action onUpgrade)
@@ -62,10 +71,15 @@ public class MatterUpgradeManager : MonoBehaviour
         {
             level++;
             onUpgrade.Invoke();
+
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.UpdateMatterText();
+            }
         }
     }
 
-    private float GetUpgradeCost(int level)
+    public float GetUpgradeCost(int level)
     {
         return baseCost * Mathf.Pow(costMultiplier, level);
     }
@@ -74,7 +88,7 @@ public class MatterUpgradeManager : MonoBehaviour
 
     private void ApplyMaxActiveMatterUpgrade()
     {
-        matterManager.maxActiveMatter += 1;
+        matterManager.maxActiveMatter += 5;
     }
 
     private void ApplySpawnIntervalUpgrade()

@@ -10,7 +10,9 @@ public class Matter : MonoBehaviour
     [Header("Stat")]
     private float value = 1f;
     private float mass = 1f;
-    private float damage = 1f;
+    private float damage = 5f;
+
+    public float BaseDamage => damage * MatterUpgradeManager.Instance.matterManager.matterDamage;
 
     private void Awake()
     {
@@ -29,17 +31,16 @@ public class Matter : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("Peg"))
+        if (collision.gameObject.TryGetComponent(out Peg peg))
         {
-            Peg peg = collision.collider.GetComponent<Peg>();
-            if (peg != null)
-            {
-                peg.GainXP();
-                value += peg.currencyValue;
-            }
+            peg.GainXP();
+            peg.TakeDamage(damage);
+            value += peg.pegValue;
+            CurrencyManager.Instance.AddCurrency(peg.pegValue);
         }
-        else if (collision.collider.CompareTag("Blackhole"))
+        else if (collision.gameObject.TryGetComponent(out Blackhole blackhole))
         {
+            blackhole.Absorb(mass);
             Blackhole.Instance.Absorb(mass);
             CurrencyManager.Instance.AddCurrency(value);
             gameObject.SetActive(false);

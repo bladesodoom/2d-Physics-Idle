@@ -10,11 +10,7 @@ public class Blackhole : MonoBehaviour
     public event Action OnStatsChanged;
 
     [Header("Stats")]
-    public int collapseCount = 0;
-
     public float currentMass = 0f;
-    public float collapseMass = 500f;
-    public float collapseMassScaler = 1.25f;
 
     [Header("Collapse Rewards")]
     public float singularityPoints = 0f;
@@ -35,24 +31,5 @@ public class Blackhole : MonoBehaviour
     {
         currentMass += amount;
         OnStatsChanged?.Invoke();
-
-        if (currentMass.CompareTo(collapseMass) >= 0)
-        {
-            Collapse();
-            OnStatsChanged?.Invoke();
-        }
-    }
-
-    private void Collapse()
-    {
-        collapseCount++;
-
-        singularityPoints += currentMass * spConversionRate;
-        currentMass = 0f;
-        collapseMass *= collapseMassScaler;
-        OnStatsChanged?.Invoke();
-
-        CurrencyManager.Instance.currentCurrency = 0;
-        PegManager.Instance.ResetAllPegs();
     }
 }

@@ -7,15 +7,22 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance { get; private set; }
 
     [Header("References")]
-    [SerializeField] private TextMeshProUGUI currencyText;
-    [SerializeField] private TextMeshProUGUI collapseText;
-    [SerializeField] private TextMeshProUGUI massText;
+    [SerializeField] protected TextMeshProUGUI currencyText;
+    [SerializeField] protected TextMeshProUGUI massText;
+    [SerializeField] protected TextMeshProUGUI maxMatterText;
+    [SerializeField] protected TextMeshProUGUI spawnIntervalText;
+    [SerializeField] protected TextMeshProUGUI matterScaleText;
+    [SerializeField] protected TextMeshProUGUI baseValueText;
+    [SerializeField] protected TextMeshProUGUI matterDamageText;
 
-    public void OnClickUpgradeMaxMatter() => MatterUpgradeManager.Instance.UpgradeMaxActiveMatter();
-    public void OnClickUpgradeSpawn() => MatterUpgradeManager.Instance.UpgradeSpawnInterval();
-    public void OnClickUpgradeScale() => MatterUpgradeManager.Instance.UpgradeScale();
-    public void OnClickUpgradeValue() => MatterUpgradeManager.Instance.UpgradeBaseValue();
-    public void OnClickUpgradeDamage() => MatterUpgradeManager.Instance.UpgradeDamage();
+    private MatterUpgradeManager upgradeManager => MatterUpgradeManager.Instance;
+    private MatterManager matterManager => MatterUpgradeManager.Instance.matterManager;
+
+    public void OnClickIncreaseMaxMatter() => MatterUpgradeManager.Instance.UpgradeMaxActiveMatter();
+    public void OnClickIncreaseSpawnRate() => MatterUpgradeManager.Instance.UpgradeSpawnInterval();
+    public void OnClickDecreaseSize() => MatterUpgradeManager.Instance.UpgradeScale();
+    public void OnClickIncreaseValue() => MatterUpgradeManager.Instance.UpgradeBaseValue();
+    public void OnClickDecreaseDamage() => MatterUpgradeManager.Instance.UpgradeDamage();
 
     private void Awake()
     {
@@ -32,6 +39,7 @@ public class UIManager : MonoBehaviour
     {
         Blackhole.Instance.OnStatsChanged += UpdateBlackholeStats;
         CurrencyManager.Instance.OnCurrencyChanged += UpdateCurrencyText;
+        UpdateMatterText();
     }
 
     private void OnDisable()
@@ -47,7 +55,54 @@ public class UIManager : MonoBehaviour
 
     private void UpdateBlackholeStats()
     {
-        collapseText.text = $"Collapse: {Blackhole.Instance.collapseCount}";
         massText.text = $"Mass: {Blackhole.Instance.currentMass:F2}";
+    }
+
+    public void UpdateMatterText()
+    {
+        maxMatterText.text = FormatUpgradeText(
+            "Max Matter",
+            upgradeManager.maxActiveMatterLevel,
+            upgradeManager.GetUpgradeCost(upgradeManager.maxActiveMatterLevel),
+            matterManager.maxActiveMatter,
+            matterManager.maxActiveMatter + 5
+        );
+
+        spawnIntervalText.text = FormatUpgradeText(
+            "Spawn Speed",
+            upgradeManager.spawnIntervalLevel,
+            upgradeManager.GetUpgradeCost(upgradeManager.spawnIntervalLevel),
+            matterManager.spawnInterval,
+            matterManager.spawnInterval * 0.95f
+        );
+
+        matterScaleText.text = FormatUpgradeText(
+            "Scale",
+            upgradeManager.scaleLevel,
+            upgradeManager.GetUpgradeCost(upgradeManager.scaleLevel),
+            matterManager.matterScale,
+            matterManager.matterScale * 0.95f
+        );
+
+        baseValueText.text = FormatUpgradeText(
+            "Base Value",
+            upgradeManager.baseValueLevel,
+            upgradeManager.GetUpgradeCost(upgradeManager.baseValueLevel),
+            matterManager.baseValue,
+            matterManager.baseValue * 1.1f
+        );
+
+        matterDamageText.text = FormatUpgradeText(
+            "Damage",
+            upgradeManager.damageLevel,
+            upgradeManager.GetUpgradeCost(upgradeManager.damageLevel),
+            matterManager.matterDamage,
+            matterManager.matterDamage * 0.95f
+        );
+    }
+
+    private string FormatUpgradeText(string name, int level, float cost, float currentValue, float nextValue)
+    {
+        return $"{name} Lv.{level}\nCost: {cost:0.0}\nChange: {currentValue:0.##} > {nextValue:0.##}";
     }
 }

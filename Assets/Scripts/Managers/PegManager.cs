@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -66,6 +67,20 @@ public class PegManager : MonoBehaviour
         selectedPeg = null;
         if (upgradeMenu != null)
             upgradeMenu.SetActive(false);
+    }
+
+    public void ScheduleRespawn(Peg peg, float delay)
+    {
+        StartCoroutine(RespawnPegAfterDelay(peg, delay));
+    }
+
+    private IEnumerator RespawnPegAfterDelay(Peg peg, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        peg.gameObject.SetActive(true);
+        peg.ResetPeg();
+        peg.sr.enabled = true;
+        peg.isRespawning = false;
     }
 
     public Peg GetSelectedPeg() => selectedPeg;

@@ -11,7 +11,6 @@ public class PegUpgradeUI : MonoBehaviour
     public GameObject panel;
     public TextMeshProUGUI levelText;
     public TextMeshProUGUI upgradeCostText;
-    public TextMeshProUGUI boostText;
     public Button upgradeButton;
     public Button closeButton;
 
@@ -36,16 +35,6 @@ public class PegUpgradeUI : MonoBehaviour
     {
         currentPeg = peg;
         UpdateUI();
-    }
-
-    private void UpgradePeg()
-    {
-        if (CurrencyManager.Instance.TrySpend(currentPeg.pegUpgradeCost))
-        {
-            currentPeg.pegLevel++;
-            currentPeg.pegUpgradeCost *= 1.5f;
-            UpdateUI();
-        }
     }
 
     public void CloseMenu()

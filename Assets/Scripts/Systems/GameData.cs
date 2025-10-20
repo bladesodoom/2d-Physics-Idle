@@ -9,17 +9,11 @@ public class GameData
 
     // Blackhole Data
     public float currentMass;
-    public float singularityPoints;
-    public int collapseCount;
-    public float collapseMass;
-    public float collapseMassScaler;
-    public float spConversionRate;
 
     // Matter Data
     public int maxMatter;
     public float spawnInterval;
-    public float xScale;
-    public float yScale;
+    public float scale;
     public float value;
     public float damage;
 

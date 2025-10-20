@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 
 using UnityEngine;
+
 public class MatterManager : MonoBehaviour
 {
     public static MatterManager Instance;
@@ -13,7 +14,7 @@ public class MatterManager : MonoBehaviour
 
     [Header("Spawn Settings")]
     public float spawnInterval = 1f;
-    public float matterScale = 3f;
+    public float matterScale = 2f;
 
     [Header("Stats")]
     public float baseValue = 1f;

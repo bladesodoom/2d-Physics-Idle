@@ -1,16 +1,11 @@
-using System.Collections;
-
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
 public class AcceleratorArea : MonoBehaviour
 {
     [Header("Force Power")]
-    public float minPulseForce = 5f;
-    public float maxPulseForce = 10f;
-    public float pulseDelay = 1f;
-
-    private float pulseTimer;
+    public float impulseForce = 5f;
+    public float stayForce = 80f;
 
     public bool isPushRight = true;
 
@@ -18,20 +13,18 @@ public class AcceleratorArea : MonoBehaviour
     {
         if (other.CompareTag("Matter"))
         {
-            Rigidbody2D rb = other.GetComponent<Rigidbody2D>();
-            StartCoroutine(DelayedPulse(rb));
+            Rigidbody2D rb = other.attachedRigidbody;
+            Vector2 direction = isPushRight ? Vector2.right : Vector2.left;
+            rb.AddForce(direction * impulseForce * Time.fixedDeltaTime, ForceMode2D.Impulse);
         }
     }
-
-    private IEnumerator DelayedPulse(Rigidbody2D rb)
+    public void OnTriggerStay2D(Collider2D other)
     {
-        yield return new WaitForSeconds(pulseDelay);
-
-        if (rb == null) yield break;
-
-        float randomForce = Random.Range(minPulseForce, maxPulseForce);
-        Vector2 force = (isPushRight ? Vector2.right : Vector2.left) * randomForce;
-
-        rb.AddForce(force, ForceMode2D.Impulse);
+        if (other.CompareTag("Matter"))
+        {
+            Rigidbody2D rb = other.attachedRigidbody;
+            Vector2 direction = isPushRight ? Vector2.right : Vector2.left;
+            rb.AddForce(direction * stayForce * Time.fixedDeltaTime, ForceMode2D.Force);
+        }
     }
 }
