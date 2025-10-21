@@ -14,9 +14,16 @@ public class UIManager : MonoBehaviour
     [SerializeField] protected TextMeshProUGUI matterScaleText;
     [SerializeField] protected TextMeshProUGUI baseValueText;
     [SerializeField] protected TextMeshProUGUI matterDamageText;
+    [SerializeField] protected TextMeshProUGUI pegLevelText;
+    [SerializeField] protected TextMeshProUGUI pegXPText;
+    [SerializeField] protected TextMeshProUGUI pegValueText;
+    [SerializeField] protected TextMeshProUGUI pegHPText;
 
-    private MatterUpgradeManager upgradeManager => MatterUpgradeManager.Instance;
+    private MatterUpgradeManager matterUpgradeManager => MatterUpgradeManager.Instance;
     private MatterManager matterManager => MatterUpgradeManager.Instance.matterManager;
+
+    private PegUpgradeManager pegUpgradeManager => PegUpgradeManager.Instance;
+    private PegManager pegManager => PegUpgradeManager.Instance.pegManager;
 
     public void OnClickIncreaseMaxMatter() => MatterUpgradeManager.Instance.UpgradeMaxActiveMatter();
     public void OnClickIncreaseSpawnRate() => MatterUpgradeManager.Instance.UpgradeSpawnInterval();
@@ -61,48 +68,70 @@ public class UIManager : MonoBehaviour
     public void UpdateMatterText()
     {
         maxMatterText.text = FormatUpgradeText(
-            "Max Matter",
-            upgradeManager.maxActiveMatterLevel,
-            upgradeManager.GetUpgradeCost(upgradeManager.maxActiveMatterLevel),
+            "Max",
+            matterUpgradeManager.maxActiveMatterLevel,
+            matterUpgradeManager.GetUpgradeCost(matterUpgradeManager.maxActiveMatterLevel),
             matterManager.maxActiveMatter,
             matterManager.maxActiveMatter + 5
         );
 
         spawnIntervalText.text = FormatUpgradeText(
-            "Spawn Speed",
-            upgradeManager.spawnIntervalLevel,
-            upgradeManager.GetUpgradeCost(upgradeManager.spawnIntervalLevel),
+            "Spawn",
+            matterUpgradeManager.spawnIntervalLevel,
+            matterUpgradeManager.GetUpgradeCost(matterUpgradeManager.spawnIntervalLevel),
             matterManager.spawnInterval,
             matterManager.spawnInterval * 0.95f
         );
 
         matterScaleText.text = FormatUpgradeText(
-            "Scale",
-            upgradeManager.scaleLevel,
-            upgradeManager.GetUpgradeCost(upgradeManager.scaleLevel),
+            "Size",
+            matterUpgradeManager.scaleLevel,
+            matterUpgradeManager.GetUpgradeCost(matterUpgradeManager.scaleLevel),
             matterManager.matterScale,
             matterManager.matterScale * 0.95f
         );
 
         baseValueText.text = FormatUpgradeText(
-            "Base Value",
-            upgradeManager.baseValueLevel,
-            upgradeManager.GetUpgradeCost(upgradeManager.baseValueLevel),
+            "Value",
+            matterUpgradeManager.baseValueLevel,
+            matterUpgradeManager.GetUpgradeCost(matterUpgradeManager.baseValueLevel),
             matterManager.baseValue,
             matterManager.baseValue * 1.1f
         );
 
         matterDamageText.text = FormatUpgradeText(
             "Damage",
-            upgradeManager.damageLevel,
-            upgradeManager.GetUpgradeCost(upgradeManager.damageLevel),
+            matterUpgradeManager.damageLevel,
+            matterUpgradeManager.GetUpgradeCost(matterUpgradeManager.damageLevel),
             matterManager.matterDamage,
             matterManager.matterDamage * 0.95f
         );
     }
 
+    public void UpdatePegText()
+    {
+        pegLevelText.text = $"Level: {pegUpgradeManager.currentPeg}";
+        pegXPText.text = $"XP: {pegUpgradeManager.currentPeg.pegCurrentXP} / {pegUpgradeManager.currentPeg.pegXPNextLevel}";
+
+        pegValueText.text = FormatUpgradeText(
+            "Value",
+            pegUpgradeManager.currentPeg.pegLevel,
+            pegUpgradeManager.currentPeg.pegUpgradeCost,
+            pegUpgradeManager.currentPeg.pegValue,
+            pegUpgradeManager.currentPeg.pegValue * 1.2f
+        );
+
+        pegHPText.text = FormatUpgradeText(
+            "HP",
+            pegUpgradeManager.currentPeg.pegLevel,
+            pegUpgradeManager.currentPeg.pegUpgradeCost,
+            pegUpgradeManager.currentPeg.maxHP,
+            pegUpgradeManager.currentPeg.maxHP * 1.5f
+        );
+    }
+
     private string FormatUpgradeText(string name, int level, float cost, float currentValue, float nextValue)
     {
-        return $"{name} Lv.{level}\nCost: {cost:0.0}\nChange: {currentValue:0.##} > {nextValue:0.##}";
+        return $"{name} Level: {level}\nCost: {cost:0.0}\n{currentValue:0.##} > {nextValue:0.##}";
     }
 }

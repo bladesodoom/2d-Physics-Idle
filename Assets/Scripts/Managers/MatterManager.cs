@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MatterManager : MonoBehaviour
 {
-    public static MatterManager Instance;
+    public static MatterManager Instance { get; private set; }
 
     [Header("Prefabs")]
     public Matter matterPrefab;

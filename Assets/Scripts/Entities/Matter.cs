@@ -12,8 +12,6 @@ public class Matter : MonoBehaviour
     private float mass = 1f;
     private float damage = 5f;
 
-    public float BaseDamage => damage * MatterUpgradeManager.Instance.matterManager.matterDamage;
-
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();

@@ -9,8 +9,7 @@ public class PegManager : MonoBehaviour
 
     [Header("Peg Settings")]
     public Peg pegPrefab;
-    public GameObject upgradeMenu;
-    public PegUpgradeUI upgradeUI;
+    public GameObject pegUpgradeMenu;
 
     private Peg selectedPeg;
 
@@ -39,16 +38,7 @@ public class PegManager : MonoBehaviour
     public void SelectPeg(Peg peg)
     {
         selectedPeg = peg;
-
-        if (upgradeMenu != null)
-        {
-            upgradeMenu.SetActive(true);
-        }
-
-        if (upgradeUI != null)
-        {
-            upgradeUI.OpenMenu(peg);
-        }
+        PegUpgradeManager.Instance.OpenMenu(peg);
     }
 
     public List<PegData> GetAllPegData()
@@ -60,13 +50,6 @@ public class PegManager : MonoBehaviour
             if (peg != null) dataList.Add(peg.ToData());
         }
         return dataList;
-    }
-
-    public void CloseUpgradeMenu()
-    {
-        selectedPeg = null;
-        if (upgradeMenu != null)
-            upgradeMenu.SetActive(false);
     }
 
     public void ScheduleRespawn(Peg peg, float delay)
@@ -83,8 +66,6 @@ public class PegManager : MonoBehaviour
         peg.sr.color = peg.defaultColor;
         peg.isRespawning = false;
     }
-
-    public Peg GetSelectedPeg() => selectedPeg;
 
     private void Start()
     {

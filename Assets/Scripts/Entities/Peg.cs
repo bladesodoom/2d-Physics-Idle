@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 
 using UnityEngine;
@@ -7,7 +8,7 @@ using UnityEngine.EventSystems;
 public class Peg : MonoBehaviour, IPointerClickHandler
 {
     public SpriteRenderer sr;
-    public float damageFlashTime = 0.08f;
+    public float damageFlashTime = 0.05f;
 
     public int pegID;
 
@@ -20,6 +21,7 @@ public class Peg : MonoBehaviour, IPointerClickHandler
 
     public int pegPointsPerLevel = 1;
     public int pegUpgradePoints = 0;
+    public int pegUpgradeCost = 1;
 
 
     public float basePegValue = 1;
@@ -34,6 +36,8 @@ public class Peg : MonoBehaviour, IPointerClickHandler
 
     public Color defaultColor;
     private Coroutine flashRoutine;
+
+    public event Action OnPointsChanged;
 
     private void Awake()
     {
@@ -50,6 +54,7 @@ public class Peg : MonoBehaviour, IPointerClickHandler
             pegPosition = transform.position,
             level = pegLevel,
             value = pegValue,
+            upgradeCost = pegUpgradeCost,
             currentXP = pegCurrentXP,
             xpNextLevel = pegXPNextLevel,
             xpGainMultiplier = pegXPGainMultiplier,
@@ -64,6 +69,7 @@ public class Peg : MonoBehaviour, IPointerClickHandler
         transform.position = data.pegPosition;
         pegLevel = data.level;
         pegValue = data.value;
+        pegUpgradeCost = data.upgradeCost;
         pegCurrentXP = data.currentXP;
         pegXPNextLevel = data.xpNextLevel;
         pegXPGainMultiplier = data.xpGainMultiplier;
@@ -73,8 +79,16 @@ public class Peg : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (EventSystem.current.IsPointerOverGameObject()) return;
+        if (!EventSystem.current.IsPointerOverGameObject()) return;
         PegManager.Instance.SelectPeg(this);
+    }
+
+    public bool TryUpgrade(int amount)
+    {
+        if (pegUpgradePoints < amount) return false;
+        pegUpgradePoints -= amount;
+        OnPointsChanged?.Invoke();
+        return true;
     }
 
     public void TakeDamage(float amount)

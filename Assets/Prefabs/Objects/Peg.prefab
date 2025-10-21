@@ -153,9 +153,9 @@ MonoBehaviour:
   pegXPGainMultiplier: 1
   pegLevelScaler: 1.25
   pegCurrentXPValue: 1
-  pegUpgradeCost: 10
   pegPointsPerLevel: 1
   pegUpgradePoints: 0
+  pegUpgradeCost: 10
   basePegValue: 1
   pegValue: 1
   baseHP: 50
