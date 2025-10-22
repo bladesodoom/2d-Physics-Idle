@@ -79,6 +79,7 @@ public class PegManager : MonoBehaviour
         int total = rows * columns;
         int dataCount = loadedPegData != null ? loadedPegData.Count : 0;
         int index = 0;
+        int pegIDCounter = 0;
 
         for (int row = 0; row < rows; row++)
         {
@@ -91,6 +92,9 @@ public class PegManager : MonoBehaviour
                 );
 
                 Peg newPeg = Instantiate(pegPrefab, pos, Quaternion.identity, transform);
+
+                newPeg.pegID = pegIDCounter++;
+                newPeg.gameObject.name = $"Peg_{pegIDCounter}";
                 if (index < dataCount)
                 {
                     newPeg.FromData(loadedPegData[index]);

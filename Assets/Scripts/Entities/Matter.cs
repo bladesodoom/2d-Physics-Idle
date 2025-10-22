@@ -10,7 +10,7 @@ public class Matter : MonoBehaviour
     [Header("Stat")]
     private float value = 1f;
     private float mass = 1f;
-    private float damage = 5f;
+    public float damage = 0.5f;
 
     private void Awake()
     {
@@ -32,7 +32,7 @@ public class Matter : MonoBehaviour
         if (collision.gameObject.TryGetComponent(out Peg peg))
         {
             peg.GainXP();
-            peg.TakeDamage(damage);
+            peg.TakeDamage(damage, this);
             value += peg.pegValue;
             CurrencyManager.Instance.AddCurrency(peg.pegValue);
         }

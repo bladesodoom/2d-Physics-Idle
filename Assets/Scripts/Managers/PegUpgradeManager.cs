@@ -33,22 +33,30 @@ public class PegUpgradeManager : MonoBehaviour
     }
     public void OpenMenu(Peg peg)
     {
+        if (currentPeg != null)
+        {
+            currentPeg.OnStatsChanged -= HandlePegStatsChanged;
+        }
         currentPeg = peg;
+        currentPeg.OnStatsChanged += HandlePegStatsChanged;
+
         PegManager.Instance.pegUpgradeMenu.SetActive(true);
         UIManager.Instance.UpdatePegText();
     }
 
+    private void HandlePegStatsChanged()
+    {
+        OnPegStatsChanged?.Invoke();
+    }
 
     public void UpgradeValue()
     {
         TryPurchaseUpgrade(ref valueLevel, ApplyValueUpgrade);
-        OnPegStatsChanged?.Invoke();
     }
 
     public void UpgradeHealth()
     {
         TryPurchaseUpgrade(ref hpLevel, ApplyHealthUpgrade);
-        OnPegStatsChanged?.Invoke();
     }
 
     private void TryPurchaseUpgrade(ref int level, System.Action onUpgrade)
@@ -59,10 +67,7 @@ public class PegUpgradeManager : MonoBehaviour
             level++;
             onUpgrade.Invoke();
 
-            if (UIManager.Instance != null)
-            {
-                UIManager.Instance.UpdatePegText();
-            }
+            HandlePegStatsChanged();
         }
     }
 

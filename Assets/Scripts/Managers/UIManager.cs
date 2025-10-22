@@ -14,8 +14,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] protected TextMeshProUGUI matterScaleText;
     [SerializeField] protected TextMeshProUGUI baseValueText;
     [SerializeField] protected TextMeshProUGUI matterDamageText;
-    [SerializeField] protected TextMeshProUGUI pegLevelText;
-    [SerializeField] protected TextMeshProUGUI pegXPText;
+    [SerializeField] protected TextMeshProUGUI pegInfoText;
     [SerializeField] protected TextMeshProUGUI pegValueText;
     [SerializeField] protected TextMeshProUGUI pegHPText;
 
@@ -23,7 +22,6 @@ public class UIManager : MonoBehaviour
     private MatterManager matterManager => MatterUpgradeManager.Instance.matterManager;
 
     private PegUpgradeManager pegUpgradeManager => PegUpgradeManager.Instance;
-    private PegManager pegManager => PegUpgradeManager.Instance.pegManager;
 
     public void OnClickIncreaseMaxMatter() => MatterUpgradeManager.Instance.UpgradeMaxActiveMatter();
     public void OnClickIncreaseSpawnRate() => MatterUpgradeManager.Instance.UpgradeSpawnInterval();
@@ -47,17 +45,20 @@ public class UIManager : MonoBehaviour
         Blackhole.Instance.OnStatsChanged += UpdateBlackholeStats;
         CurrencyManager.Instance.OnCurrencyChanged += UpdateCurrencyText;
         UpdateMatterText();
+        PegUpgradeManager.Instance.OnPegStatsChanged += UpdatePegText;
     }
 
     private void OnDisable()
     {
         Blackhole.Instance.OnStatsChanged -= UpdateBlackholeStats;
         CurrencyManager.Instance.OnCurrencyChanged -= UpdateCurrencyText;
+
+        PegUpgradeManager.Instance.OnPegStatsChanged -= UpdatePegText;
     }
 
     private void UpdateCurrencyText()
     {
-        currencyText.text = $"Currency: {CurrencyManager.Instance.currentCurrency:F2}";
+        currencyText.text = $"$ {CurrencyManager.Instance.currentCurrency:F2}";
     }
 
     private void UpdateBlackholeStats()
@@ -110,8 +111,10 @@ public class UIManager : MonoBehaviour
 
     public void UpdatePegText()
     {
-        pegLevelText.text = $"Level: {pegUpgradeManager.currentPeg}";
-        pegXPText.text = $"XP: {pegUpgradeManager.currentPeg.pegCurrentXP} / {pegUpgradeManager.currentPeg.pegXPNextLevel}";
+        pegInfoText.text = $"{pegUpgradeManager.currentPeg.name}" +
+            $"\n\nLevel: {pegUpgradeManager.currentPeg.pegLevel}" +
+            $"\tXP: {pegUpgradeManager.currentPeg.pegCurrentXP} / {pegUpgradeManager.currentPeg.pegXPNextLevel}" +
+            $"\nPoints: {pegUpgradeManager.currentPeg.pegUpgradePoints}";
 
         pegValueText.text = FormatUpgradeText(
             "Value",

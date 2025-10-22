@@ -37,7 +37,8 @@ public class Peg : MonoBehaviour, IPointerClickHandler
     public Color defaultColor;
     private Coroutine flashRoutine;
 
-    public event Action OnPointsChanged;
+    public event Action OnStatsChanged;
+
 
     private void Awake()
     {
@@ -87,20 +88,33 @@ public class Peg : MonoBehaviour, IPointerClickHandler
     {
         if (pegUpgradePoints < amount) return false;
         pegUpgradePoints -= amount;
-        OnPointsChanged?.Invoke();
+        FloatingTextManager.Instance.ShowFloatingText(
+            transform.position,
+            $"-{amount}",
+            Color.red,
+            false
+        );
         return true;
     }
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(float amount, Matter matter)
     {
         if (isRespawning) return;
 
         FloatingTextManager.Instance.ShowFloatingText(
             transform.position,
-            $"+{pegValue}"
+            $"+{pegValue}",
+            Color.gold
+        );
+        FloatingTextManager.Instance.ShowFloatingText(
+            transform.position,
+            $"-{matter.damage:F2}",
+            Color.red,
+            false
         );
 
         currentHP -= amount;
+        OnStatsChanged?.Invoke();
 
         if (currentHP <= 0)
         {
@@ -153,10 +167,10 @@ public class Peg : MonoBehaviour, IPointerClickHandler
         pegValue = basePegValue;
         pegCurrentXP = 0;
         pegXPNextLevel = 10;
-        pegXPGainMultiplier = 1f;
-        pegCurrentXPValue = 1;
+        pegXPGainMultiplier = 1.75f;
+        pegCurrentXPValue = 13;
         pegUpgradePoints = 0;
-        pegPointsPerLevel = 1;
+        pegPointsPerLevel = 5;
 
         if (sr != null)
         {
@@ -169,6 +183,7 @@ public class Peg : MonoBehaviour, IPointerClickHandler
     {
         pegCurrentXP += pegXPGainMultiplier * pegCurrentXPValue;
         CheckLevelUp();
+        OnStatsChanged?.Invoke();
     }
 
     private void CheckLevelUp()
