@@ -103,7 +103,7 @@ public class Peg : MonoBehaviour, IPointerClickHandler
 
         FloatingTextManager.Instance.ShowFloatingText(
             transform.position,
-            $"+{pegValue}",
+            $"+${pegValue}",
             Color.gold
         );
         FloatingTextManager.Instance.ShowFloatingText(
