@@ -9,10 +9,4 @@ public class PegData
     public Vector3 pegPosition;
     public int level;
     public float value;
-    public int upgradeCost;
-    public float currentXP;
-    public float xpNextLevel;
-    public float xpGainMultiplier;
-    public float levelScaler;
-    public float currentXPValue;
 }

@@ -12,18 +12,6 @@ public class Peg : MonoBehaviour, IPointerClickHandler
 
     public int pegID;
 
-    public int pegLevel = 1;
-    public float pegCurrentXP = 0;
-    public float pegXPNextLevel = 10;
-    public float pegXPGainMultiplier = 1f;
-    public float pegLevelScaler = 1.25f;
-    public float pegCurrentXPValue = 1;
-
-    public int pegPointsPerLevel = 1;
-    public int pegUpgradePoints = 0;
-    public int pegUpgradeCost = 1;
-
-
     public float basePegValue = 1;
     public float pegValue = 1;
 
@@ -53,14 +41,7 @@ public class Peg : MonoBehaviour, IPointerClickHandler
         {
             id = pegID,
             pegPosition = transform.position,
-            level = pegLevel,
-            value = pegValue,
-            upgradeCost = pegUpgradeCost,
-            currentXP = pegCurrentXP,
-            xpNextLevel = pegXPNextLevel,
-            xpGainMultiplier = pegXPGainMultiplier,
-            levelScaler = pegLevelScaler,
-            currentXPValue = pegCurrentXPValue,
+            value = pegValue
         };
     }
 
@@ -68,33 +49,13 @@ public class Peg : MonoBehaviour, IPointerClickHandler
     {
         pegID = data.id;
         transform.position = data.pegPosition;
-        pegLevel = data.level;
         pegValue = data.value;
-        pegUpgradeCost = data.upgradeCost;
-        pegCurrentXP = data.currentXP;
-        pegXPNextLevel = data.xpNextLevel;
-        pegXPGainMultiplier = data.xpGainMultiplier;
-        pegLevelScaler = data.levelScaler;
-        pegCurrentXPValue = data.currentXPValue;
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         if (!EventSystem.current.IsPointerOverGameObject()) return;
         PegManager.Instance.SelectPeg(this);
-    }
-
-    public bool TryUpgrade(int amount)
-    {
-        if (pegUpgradePoints < amount) return false;
-        pegUpgradePoints -= amount;
-        FloatingTextManager.Instance.ShowFloatingText(
-            transform.position,
-            $"-{amount}",
-            Color.red,
-            false
-        );
-        return true;
     }
 
     public void TakeDamage(float amount, Matter matter)
@@ -165,39 +126,11 @@ public class Peg : MonoBehaviour, IPointerClickHandler
     {
         currentHP = baseHP;
         pegValue = basePegValue;
-        pegCurrentXP = 0;
-        pegXPNextLevel = 10;
-        pegXPGainMultiplier = 1.75f;
-        pegCurrentXPValue = 13;
-        pegUpgradePoints = 0;
-        pegPointsPerLevel = 5;
 
         if (sr != null)
         {
             sr.color = defaultColor;
             sr.enabled = true;
         }
-    }
-
-    public void GainXP()
-    {
-        pegCurrentXP += pegXPGainMultiplier * pegCurrentXPValue;
-        CheckLevelUp();
-        OnStatsChanged?.Invoke();
-    }
-
-    private void CheckLevelUp()
-    {
-        if (pegCurrentXP >= pegXPNextLevel)
-        {
-            LevelUp();
-        }
-    }
-
-    private void LevelUp()
-    {
-        pegLevel++;
-        pegUpgradePoints += pegPointsPerLevel;
-        pegXPNextLevel *= pegLevelScaler;
     }
 }

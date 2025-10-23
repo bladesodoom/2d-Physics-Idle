@@ -21,8 +21,6 @@ public class UIManager : MonoBehaviour
     private MatterUpgradeManager matterUpgradeManager => MatterUpgradeManager.Instance;
     private MatterManager matterManager => MatterUpgradeManager.Instance.matterManager;
 
-    private PegUpgradeManager pegUpgradeManager => PegUpgradeManager.Instance;
-
     public void OnClickIncreaseMaxMatter() => MatterUpgradeManager.Instance.UpgradeMaxActiveMatter();
     public void OnClickIncreaseSpawnRate() => MatterUpgradeManager.Instance.UpgradeSpawnInterval();
     public void OnClickDecreaseSize() => MatterUpgradeManager.Instance.UpgradeScale();
@@ -44,16 +42,12 @@ public class UIManager : MonoBehaviour
     {
         Blackhole.Instance.OnStatsChanged += UpdateBlackholeStats;
         CurrencyManager.Instance.OnCurrencyChanged += UpdateCurrencyText;
-        UpdateMatterText();
-        PegUpgradeManager.Instance.OnPegStatsChanged += UpdatePegText;
     }
 
     private void OnDisable()
     {
         Blackhole.Instance.OnStatsChanged -= UpdateBlackholeStats;
         CurrencyManager.Instance.OnCurrencyChanged -= UpdateCurrencyText;
-
-        PegUpgradeManager.Instance.OnPegStatsChanged -= UpdatePegText;
     }
 
     private void UpdateCurrencyText()
@@ -69,7 +63,7 @@ public class UIManager : MonoBehaviour
     public void UpdateMatterText()
     {
         maxMatterText.text = FormatUpgradeText(
-            "Max",
+            "Max Matter",
             matterUpgradeManager.maxActiveMatterLevel,
             matterUpgradeManager.GetUpgradeCost(matterUpgradeManager.maxActiveMatterLevel),
             matterManager.maxActiveMatter,
@@ -77,7 +71,7 @@ public class UIManager : MonoBehaviour
         );
 
         spawnIntervalText.text = FormatUpgradeText(
-            "Spawn",
+            "Spawn Rate",
             matterUpgradeManager.spawnIntervalLevel,
             matterUpgradeManager.GetUpgradeCost(matterUpgradeManager.spawnIntervalLevel),
             matterManager.spawnInterval,
@@ -85,7 +79,7 @@ public class UIManager : MonoBehaviour
         );
 
         matterScaleText.text = FormatUpgradeText(
-            "Size",
+            "Matter Size",
             matterUpgradeManager.scaleLevel,
             matterUpgradeManager.GetUpgradeCost(matterUpgradeManager.scaleLevel),
             matterManager.matterScale,
@@ -93,43 +87,11 @@ public class UIManager : MonoBehaviour
         );
 
         baseValueText.text = FormatUpgradeText(
-            "Value",
+            "Matter Value",
             matterUpgradeManager.baseValueLevel,
             matterUpgradeManager.GetUpgradeCost(matterUpgradeManager.baseValueLevel),
             matterManager.baseValue,
             matterManager.baseValue * 1.1f
-        );
-
-        matterDamageText.text = FormatUpgradeText(
-            "Damage",
-            matterUpgradeManager.damageLevel,
-            matterUpgradeManager.GetUpgradeCost(matterUpgradeManager.damageLevel),
-            matterManager.matterDamage,
-            matterManager.matterDamage * 0.95f
-        );
-    }
-
-    public void UpdatePegText()
-    {
-        pegInfoText.text = $"{pegUpgradeManager.currentPeg.name}" +
-            $"\n\nLevel: {pegUpgradeManager.currentPeg.pegLevel}" +
-            $"\tXP: {pegUpgradeManager.currentPeg.pegCurrentXP} / {pegUpgradeManager.currentPeg.pegXPNextLevel}" +
-            $"\nPoints: {pegUpgradeManager.currentPeg.pegUpgradePoints}";
-
-        pegValueText.text = FormatUpgradeText(
-            "Value",
-            pegUpgradeManager.currentPeg.pegLevel,
-            pegUpgradeManager.currentPeg.pegUpgradeCost,
-            pegUpgradeManager.currentPeg.pegValue,
-            pegUpgradeManager.currentPeg.pegValue * 1.2f
-        );
-
-        pegHPText.text = FormatUpgradeText(
-            "HP",
-            pegUpgradeManager.currentPeg.pegLevel,
-            pegUpgradeManager.currentPeg.pegUpgradeCost,
-            pegUpgradeManager.currentPeg.maxHP,
-            pegUpgradeManager.currentPeg.maxHP * 1.5f
         );
     }
 

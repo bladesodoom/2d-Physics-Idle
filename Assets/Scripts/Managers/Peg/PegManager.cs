@@ -38,7 +38,6 @@ public class PegManager : MonoBehaviour
     public void SelectPeg(Peg peg)
     {
         selectedPeg = peg;
-        PegUpgradeManager.Instance.OpenMenu(peg);
     }
 
     public List<PegData> GetAllPegData()

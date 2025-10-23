@@ -31,12 +31,11 @@ public class Matter : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent(out Peg peg))
         {
-            peg.GainXP();
             peg.TakeDamage(damage, this);
             value += peg.pegValue;
             CurrencyManager.Instance.AddCurrency(peg.pegValue);
         }
-        else if (collision.gameObject.TryGetComponent(out Blackhole blackhole))
+        else if (collision.gameObject.TryGetComponent(out BlackholeManager bm))
         {
             blackhole.Absorb(mass);
             Blackhole.Instance.Absorb(mass);
