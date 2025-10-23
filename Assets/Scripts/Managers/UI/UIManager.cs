@@ -1,31 +1,8 @@
-using TMPro;
-
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
-
-    [Header("References")]
-    [SerializeField] protected TextMeshProUGUI currencyText;
-    [SerializeField] protected TextMeshProUGUI massText;
-    [SerializeField] protected TextMeshProUGUI maxMatterText;
-    [SerializeField] protected TextMeshProUGUI spawnIntervalText;
-    [SerializeField] protected TextMeshProUGUI matterScaleText;
-    [SerializeField] protected TextMeshProUGUI baseValueText;
-    [SerializeField] protected TextMeshProUGUI matterDamageText;
-    [SerializeField] protected TextMeshProUGUI pegInfoText;
-    [SerializeField] protected TextMeshProUGUI pegValueText;
-    [SerializeField] protected TextMeshProUGUI pegHPText;
-
-    private MatterUpgradeManager matterUpgradeManager => MatterUpgradeManager.Instance;
-    private MatterManager matterManager => MatterUpgradeManager.Instance.matterManager;
-
-    public void OnClickIncreaseMaxMatter() => MatterUpgradeManager.Instance.UpgradeMaxActiveMatter();
-    public void OnClickIncreaseSpawnRate() => MatterUpgradeManager.Instance.UpgradeSpawnInterval();
-    public void OnClickDecreaseSize() => MatterUpgradeManager.Instance.UpgradeScale();
-    public void OnClickIncreaseValue() => MatterUpgradeManager.Instance.UpgradeBaseValue();
-    public void OnClickDecreaseDamage() => MatterUpgradeManager.Instance.UpgradeDamage();
 
     private void Awake()
     {
@@ -36,67 +13,5 @@ public class UIManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-    }
-
-    private void OnEnable()
-    {
-        Blackhole.Instance.OnStatsChanged += UpdateBlackholeStats;
-        CurrencyManager.Instance.OnCurrencyChanged += UpdateCurrencyText;
-    }
-
-    private void OnDisable()
-    {
-        Blackhole.Instance.OnStatsChanged -= UpdateBlackholeStats;
-        CurrencyManager.Instance.OnCurrencyChanged -= UpdateCurrencyText;
-    }
-
-    private void UpdateCurrencyText()
-    {
-        currencyText.text = $"$ {CurrencyManager.Instance.currentCurrency:F2}";
-    }
-
-    private void UpdateBlackholeStats()
-    {
-        massText.text = $"Mass: {Blackhole.Instance.currentMass:F2}";
-    }
-
-    public void UpdateMatterText()
-    {
-        maxMatterText.text = FormatUpgradeText(
-            "Max Matter",
-            matterUpgradeManager.maxActiveMatterLevel,
-            matterUpgradeManager.GetUpgradeCost(matterUpgradeManager.maxActiveMatterLevel),
-            matterManager.maxActiveMatter,
-            matterManager.maxActiveMatter + 5
-        );
-
-        spawnIntervalText.text = FormatUpgradeText(
-            "Spawn Rate",
-            matterUpgradeManager.spawnIntervalLevel,
-            matterUpgradeManager.GetUpgradeCost(matterUpgradeManager.spawnIntervalLevel),
-            matterManager.spawnInterval,
-            matterManager.spawnInterval * 0.95f
-        );
-
-        matterScaleText.text = FormatUpgradeText(
-            "Matter Size",
-            matterUpgradeManager.scaleLevel,
-            matterUpgradeManager.GetUpgradeCost(matterUpgradeManager.scaleLevel),
-            matterManager.matterScale,
-            matterManager.matterScale * 0.95f
-        );
-
-        baseValueText.text = FormatUpgradeText(
-            "Matter Value",
-            matterUpgradeManager.baseValueLevel,
-            matterUpgradeManager.GetUpgradeCost(matterUpgradeManager.baseValueLevel),
-            matterManager.baseValue,
-            matterManager.baseValue * 1.1f
-        );
-    }
-
-    private string FormatUpgradeText(string name, int level, float cost, float currentValue, float nextValue)
-    {
-        return $"{name} Level: {level}\nCost: {cost:0.0}\n{currentValue:0.##} > {nextValue:0.##}";
     }
 }

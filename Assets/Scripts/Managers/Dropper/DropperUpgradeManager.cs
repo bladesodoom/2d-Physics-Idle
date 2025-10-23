@@ -1,9 +1,10 @@
 using UnityEngine;
 
-public class CurrencyManager : MonoBehaviour
+public class DropperUpgradeManager : MonoBehaviour
 {
-    public static CurrencyManager Instance { get; private set; }
-    public void Awake()
+    public static DropperUpgradeManager Instance { get; private set; }
+
+    private void Awake()
     {
         if (Instance != null && Instance != this)
         {
