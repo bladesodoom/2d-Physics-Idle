@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public static class SaveSystem
+public static class SaveManager
 {
     private const string SaveKey = "SaveData";
 
