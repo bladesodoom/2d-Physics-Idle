@@ -18,6 +18,8 @@ public class MatterManager : MonoBehaviour
 
     private float spawnTimer;
 
+    public static event System.Action OnMatterSizeChanged;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -85,5 +87,13 @@ public class MatterManager : MonoBehaviour
     public List<MatterData> GetMatterSaveData()
     {
         return new List<MatterData> { data };
+    }
+
+    public void UpdateAllMatterStats()
+    {
+        foreach (var matter in activeMatter)
+        {
+            matter.ApplyData(data);
+        }
     }
 }

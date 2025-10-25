@@ -2,15 +2,38 @@ using UnityEngine;
 
 public class Dropper : MonoBehaviour
 {
-    // reference dropper prefab
+    [Header("Runtime Stats")]
+    public float spawnInterval;
+    public int spawnCount;
+    public float cooldownTime;
 
-    // dropper tier
+    private float cooldownTimer;
 
-    // min matter tier
-    // max matter tier
+    public void ApplyTierStats(DropperData data)
+    {
+        spawnInterval = data.spawnInterval;
+        spawnCount = data.spawnCount;
+        cooldownTime = data.cooldownTime;
+    }
 
-    // spawn rate
-    // spawn count
-    // additional matter value
-    // dropper xScale
+    private void Update()
+    {
+        cooldownTimer -= Time.deltaTime;
+
+        if (cooldownTimer <= 0f)
+        {
+            ActivateDropper();
+            cooldownTimer = cooldownTime;
+        }
+    }
+
+    private void ActivateDropper()
+    {
+        for (int i = 0; i < spawnCount; i++)
+        {
+            MatterManager.Instance.SpawnMatter();
+        }
+
+        Debug.Log($"[Dropper] Dropped {spawnCount} Matter(s) at efficiency {efficiency}");
+    }
 }

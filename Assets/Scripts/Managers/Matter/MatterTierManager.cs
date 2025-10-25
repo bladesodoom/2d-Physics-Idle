@@ -11,6 +11,24 @@ public class MatterTierManager : MonoBehaviour
     [Header("Tier Data")]
     public MatterTierData tierData;
 
+    [Header("Scaling Settings")]
+    public int totalTiers = 5;
+    public float baseValue = 1f;
+    public float valueGrowth = 1.01f;
+
+    public float baseDamage = 5;
+    public float damageDecay = 0.99f;
+
+    public float baseScale = 2f;
+    public float scaleDecay = 0.99f;
+
+    public int baseMaxActive = 10;
+    public int activeIncrement = 5;
+
+    public float baseSpawnInterval = 5f;
+    public float spawnIntervalDecay = 0.99f;
+    public float minSpawnInterval = 0.5f;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -24,23 +42,26 @@ public class MatterTierManager : MonoBehaviour
         if (tierData == null)
         {
             tierData = new MatterTierData();
-            InitializeDefaultTiers();
         }
+        GenerateTiers();
     }
 
-    private void InitializeDefaultTiers()
+    private void GenerateTiers()
     {
-        // Example: create 3 tiers
-        for (int i = 0; i < 3; i++)
+        tierData.tierList.Clear();
+
+        for (int i = 0; i < totalTiers; i++)
         {
             MatterData tier = new MatterData
             {
-                baseValue = 1f * Mathf.Pow(2f, i),
-                damage = 5f * Mathf.Pow(1.5f, i),
-                scale = 1f / Mathf.Pow(1.1f, i),
-                maxActiveMatter = 10 + (i * 5),
-                spawnInterval = Mathf.Max(0.5f, 1.5f - i * 0.3f)
+                tierIndex = i,
+                baseValue = baseValue * Mathf.Pow(valueGrowth, i),
+                damage = baseDamage * Mathf.Pow(damageDecay, i),
+                scale = baseScale * Mathf.Pow(scaleDecay, i),
+                maxActiveMatter = baseMaxActive + i * activeIncrement,
+                spawnInterval = Mathf.Max(minSpawnInterval, baseSpawnInterval * Mathf.Pow(spawnDecay, i))
             };
+
             tierData.tierList.Add(tier);
         }
     }
@@ -49,9 +70,10 @@ public class MatterTierManager : MonoBehaviour
     {
         if (tierData.TryAdvanceTier())
         {
-            matterManager.ApplyUpgrades(tierData.CurrentTierData);
+            MatterData newTier = tierData.CurrentTierData;
+            matterManager.ApplyUpgrades(newTier);
             upgradeManager.ResetUpgrades();
-            Debug.Log($"Matter advanced to Tier {tierData.currentTier + 1}");
+            Debug.Log($"[MatterTierManager] Advanced to Tier {tierData.currentTier + 1}");
         }
         else
         {

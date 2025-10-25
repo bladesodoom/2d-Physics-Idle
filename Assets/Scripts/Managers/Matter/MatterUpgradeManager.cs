@@ -9,11 +9,25 @@ public class MatterUpgradeManager : MonoBehaviour
     [Header("References")]
     public MatterManager matterManager;
 
-    [Header("Upgrade Costs")]
-    [SerializeField] private int baseCost = 10;
-    [SerializeField] private float costMultiplier = 1.5f;
+    [Header("Upgrade Config")]
+    public float baseCost = 10f;
+    public float costMultiplier = 2f;
 
-    public event Action OnMatterUpgraded;
+    [Header("Upgrade Multipliers")]
+    public float spawnIntervalMultiplier = 0.9f;
+    public float maxActiveMultiplier = 1.2f;
+    public float valueMultiplier = 1.25f;
+    public float scaleMultiplier = 0.9f;
+    public float damageMultiplier = 0.9f;
+
+    [Header("Levels")]
+    public int spawnLevel = 0;
+    public int maxActiveLevel = 0;
+    public int valueLevel = 0;
+    public int scaleLevel = 0;
+    public int damageLevel = 0;
+
+    public event Action OnMatterStatsChanged;
 
     private void Awake()
     {
@@ -22,63 +36,76 @@ public class MatterUpgradeManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
 
-    public void UpgradeValue()
-    {
-        TryUpgrade(ref matterManager.data.valueLevel, () =>
-        {
-            matterManager.data.baseValue *= 1.1f;
-        });
-    }
+    public void UpgradeSpawnInterval() => TryUpgrade(ref spawnLevel, ApplySpawnUpgrade);
+    public void UpgradeMaxActive() => TryUpgrade(ref maxActiveLevel, ApplyMaxActiveUpgrade);
+    public void UpgradeValue() => TryUpgrade(ref valueLevel, ApplyValueUpgrade);
+    public void UpgradeScale() => TryUpgrade(ref scaleLevel, ApplyScaleUpgrade);
+    public void UpgradeDamage() => TryUpgrade(ref damageLevel, ApplyDamageUpgrade);
 
-    public void UpgradeDamage()
+    private void TryUpgrade(ref int level, Action applyUpgrade)
     {
-        TryUpgrade(ref matterManager.data.damageLevel, () =>
-        {
-            matterManager.data.damage *= 1.1f;
-        });
-    }
+        float cost = GetUpgradeCost(level);
 
-    public void UpgradeScale()
-    {
-        TryUpgrade(ref matterManager.data.scaleLevel, () =>
+        if (!CurrencyManager.Instance.TrySpend(cost))
         {
-            matterManager.data.scale *= 0.95f;
-        });
-    }
-
-    public void UpgradeSpawnRate()
-    {
-        TryUpgrade(ref matterManager.data.spawnRateLevel, () =>
-        {
-            matterManager.data.spawnInterval *= 0.95f;
-        });
-    }
-
-    public void UpgradeMaxActive()
-    {
-        TryUpgrade(ref matterManager.data.maxMatterLevel, () =>
-        {
-            matterManager.data.maxActiveMatter += 5;
-        });
-    }
-
-    private void TryUpgrade(ref int level, Action upgradeAction)
-    {
-        int cost = GetUpgradeCost(level);
-        if (CurrencyManager.Instance.TrySpend(cost))
-        {
-            level++;
-            upgradeAction.Invoke();
-            OnMatterUpgraded?.Invoke();
+            Debug.Log("Not enough currency to upgrade Matter!");
+            return;
         }
+
+        level++;
+        applyUpgrade?.Invoke();
+        OnMatterStatsChanged?.Invoke();
+
+        UIManager.Instance?.UpdateMatterUpgradeUI();
     }
 
-    private int GetUpgradeCost(int level)
+    private float GetUpgradeCost(int level)
     {
-        return Mathf.RoundToInt(baseCost * Mathf.Pow(costMultiplier, level));
+        return baseCost * Mathf.Pow(costMultiplier, level);
+    }
+
+    private void ApplySpawnUpgrade()
+    {
+        matterManager.data.spawnInterval *= spawnIntervalMultiplier;
+        matterManager.UpdateAllMatterStats();
+    }
+
+    private void ApplyMaxActiveUpgrade()
+    {
+        matterManager.data.maxActive = Mathf.CeilToInt(matterManager.data.maxActive * maxActiveMultiplier);
+        matterManager.UpdateAllMatterStats();
+    }
+
+    private void ApplyValueUpgrade()
+    {
+        matterManager.data.baseValue *= valueMultiplier;
+        matterManager.UpdateAllMatterStats();
+    }
+
+    private void ApplyScaleUpgrade()
+    {
+        matterManager.data.scale *= scaleMultiplier;
+        matterManager.UpdateAllMatterStats();
+
+    }
+
+    private void ApplyDamageUpgrade()
+    {
+        matterManager.data.damage *= damageMultiplier;
+        matterManager.UpdateAllMatterStats();
+    }
+
+    public void ResetUpgrades()
+    {
+        spawnLevel = 0;
+        maxActiveLevel = 0;
+        valueLevel = 0;
+        scaleLevel = 0;
+        damageLevel = 0;
     }
 }

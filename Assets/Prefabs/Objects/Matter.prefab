@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 6850086269489923324}
   - component: {fileID: 7797905482151167779}
   - component: {fileID: 6040473629822431713}
-  - component: {fileID: -6853022747952490937}
   m_Layer: 6
   m_Name: Matter
   m_TagString: Matter
@@ -156,17 +155,3 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!114 &-6853022747952490937
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7771364976200122959}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b3e88b6b02faa04bbc17bf6ac62c220, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Matter
-  rb: {fileID: 6040473629822431713}
-  isConsumed: 0

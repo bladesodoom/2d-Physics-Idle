@@ -2,16 +2,16 @@ using UnityEngine;
 
 public class Peg : MonoBehaviour
 {
-    // reference peg prefab
+    public float currentHP;
+    public float pegValue;
+    public float xpNextLevel;
+    public float xpGainMultiplier;
+    public float upgradeCost;
 
-    // peg tier
-
-    // health
-    // value
-    // size
-    // quantity
-    // respawn time
-
-    // takes damage
-    // gives value
+    public void ApplyTierStats(PegData data)
+    {
+        pegValue = data.baseValue;
+        currentHP = data.maxHP;
+        upgradeCost = data.upgradeCost;
+    }
 }

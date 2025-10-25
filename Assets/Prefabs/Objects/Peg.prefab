@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2069201085934288948}
   - component: {fileID: 7339689372383545468}
   - component: {fileID: 7821409376772038950}
-  - component: {fileID: -2590879400084179023}
   m_Layer: 7
   m_Name: Peg
   m_TagString: Peg
@@ -132,35 +131,3 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
---- !u!114 &-2590879400084179023
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1241704533787107662}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29b03173d209c3d4484c6ca05e1112d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Peg
-  sr: {fileID: 7339689372383545468}
-  damageFlashTime: 0.1
-  pegID: 0
-  pegLevel: 1
-  pegCurrentXP: 0
-  pegXPNextLevel: 10
-  pegXPGainMultiplier: 1
-  pegLevelScaler: 1.25
-  pegCurrentXPValue: 1
-  pegPointsPerLevel: 1
-  pegUpgradePoints: 0
-  pegUpgradeCost: 10
-  basePegValue: 1
-  pegValue: 1
-  baseHP: 50
-  maxHP: 50
-  currentHP: 0
-  respawnDelay: 10
-  isRespawning: 0
-  defaultColor: {r: 0, g: 0, b: 0, a: 0}

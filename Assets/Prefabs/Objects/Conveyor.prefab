@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8159022240624975405}
   - component: {fileID: 8158100508737527933}
   - component: {fileID: 6160603740711888642}
-  - component: {fileID: 8714200884506139808}
   m_Layer: 0
   m_Name: Conveyor
   m_TagString: Untagged
@@ -138,17 +137,3 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &8714200884506139808
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7843131782780680060}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 637a61753592c984eb1ccd0a9fff4c34, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Elevator
-  moveSpeed: 1
-  topY: 1
