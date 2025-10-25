@@ -12,7 +12,7 @@ public class PegBuilder : MonoBehaviour
     [SerializeField] private Peg pegPrefab;
     [SerializeField] private PegManager pegManager;
     [SerializeField] private MatterManager matterManager;
-    [SerializeField] private BoardManager boardManager;
+    [SerializeField] private GameObject pegBoard;
 
     public float spacingMultiplier = 1.2f;
 
@@ -22,10 +22,18 @@ public class PegBuilder : MonoBehaviour
     {
         ClearPegs();
 
-        float matterSize = matterManager.CurrentMatterSize;
+        float matterSize = matterManager.Data.scale;
         float pegSize = GetCurrentPegSize();
         int quantityLevel = GetCurrentPegQuantityLevel();
-        Rect boardBounds = boardManager.BoardBounds;
+
+        BoxCollider2D collider = pegBoard.GetComponent<BoxCollider2D>();
+        Bounds bounds = collider.bounds;
+
+        Rect boardBounds = new Rect(
+            bounds.min.x,
+            bounds.min.y,
+            bounds.size.x,
+            bounds.size.y);
 
         float distance = pegSize + (matterSize * spacingMultiplier);
         float verticalSpacing = distance * 0.866f;
@@ -33,7 +41,6 @@ public class PegBuilder : MonoBehaviour
         float densityFactor = 1f + (quantityLevel * 0.1f);
         distance /= densityFactor;
         verticalSpacing /= densityFactor;
-
         int cols = Mathf.FloorToInt(boardBounds.width / distance);
         int rows = Mathf.FloorToInt(boardBounds.height / verticalSpacing);
 
@@ -82,12 +89,9 @@ public class PegBuilder : MonoBehaviour
 
     private float GetCurrentPegSize()
     {
-        // Option 1: Use PegData.size when implemented
         PegData currentTier = PegTierManager.Instance.tierData.CurrentTierData;
         if (currentTier.size > 0)
             return currentTier.size;
-
-        // Option 2: Default fallback value (temporary)
         return 0.5f;
     }
 

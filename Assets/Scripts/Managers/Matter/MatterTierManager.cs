@@ -19,7 +19,7 @@ public class MatterTierManager : MonoBehaviour
     public float baseDamage = 5;
     public float damageDecay = 0.99f;
 
-    public float baseScale = 2f;
+    public float baseScale = 1f;
     public float scaleDecay = 0.99f;
 
     public int baseMaxActive = 10;
@@ -59,7 +59,7 @@ public class MatterTierManager : MonoBehaviour
                 damage = baseDamage * Mathf.Pow(damageDecay, i),
                 scale = baseScale * Mathf.Pow(scaleDecay, i),
                 maxActiveMatter = baseMaxActive + i * activeIncrement,
-                spawnInterval = Mathf.Max(minSpawnInterval, baseSpawnInterval * Mathf.Pow(spawnDecay, i))
+                spawnInterval = Mathf.Max(minSpawnInterval, baseSpawnInterval * Mathf.Pow(spawnIntervalDecay, i))
             };
 
             tierData.tierList.Add(tier);
@@ -71,7 +71,6 @@ public class MatterTierManager : MonoBehaviour
         if (tierData.TryAdvanceTier())
         {
             MatterData newTier = tierData.CurrentTierData;
-            matterManager.ApplyUpgrades(newTier);
             upgradeManager.ResetUpgrades();
             Debug.Log($"[MatterTierManager] Advanced to Tier {tierData.currentTier + 1}");
         }

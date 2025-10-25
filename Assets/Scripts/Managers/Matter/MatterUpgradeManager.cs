@@ -60,8 +60,6 @@ public class MatterUpgradeManager : MonoBehaviour
         level++;
         applyUpgrade?.Invoke();
         OnMatterStatsChanged?.Invoke();
-
-        UIManager.Instance?.UpdateMatterUpgradeUI();
     }
 
     private float GetUpgradeCost(int level)
@@ -71,33 +69,27 @@ public class MatterUpgradeManager : MonoBehaviour
 
     private void ApplySpawnUpgrade()
     {
-        matterManager.data.spawnInterval *= spawnIntervalMultiplier;
-        matterManager.UpdateAllMatterStats();
+        matterManager.Data.spawnInterval *= spawnIntervalMultiplier;
     }
 
     private void ApplyMaxActiveUpgrade()
     {
-        matterManager.data.maxActive = Mathf.CeilToInt(matterManager.data.maxActive * maxActiveMultiplier);
-        matterManager.UpdateAllMatterStats();
+        matterManager.Data.maxActiveMatter += 5;
     }
 
     private void ApplyValueUpgrade()
     {
-        matterManager.data.baseValue *= valueMultiplier;
-        matterManager.UpdateAllMatterStats();
+        matterManager.Data.baseValue *= valueMultiplier;
     }
 
     private void ApplyScaleUpgrade()
     {
-        matterManager.data.scale *= scaleMultiplier;
-        matterManager.UpdateAllMatterStats();
-
+        matterManager.Data.scale *= scaleMultiplier;
     }
 
     private void ApplyDamageUpgrade()
     {
-        matterManager.data.damage *= damageMultiplier;
-        matterManager.UpdateAllMatterStats();
+        matterManager.Data.damage *= damageMultiplier;
     }
 
     public void ResetUpgrades()

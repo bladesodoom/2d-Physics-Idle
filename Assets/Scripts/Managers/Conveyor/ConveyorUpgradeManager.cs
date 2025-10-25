@@ -24,7 +24,6 @@ public class ConveyorUpgradeManager : MonoBehaviour
         Instance = this;
     }
 
-    [System.Obsolete]
     public void UpgradeConveyor()
     {
         float cost = baseCost * Mathf.Pow(costGrowth, level);
@@ -35,13 +34,5 @@ public class ConveyorUpgradeManager : MonoBehaviour
         }
 
         level++;
-        foreach (var conveyor in FindObjectsOfType<Conveyor>())
-        {
-            conveyor.moveSpeed *= speedGrowth;
-            if (conveyor.data != null)
-                conveyor.data.spawnInterval *= intervalReduction;
-        }
-
-        UIManager.Instance.UpdateDropperText();
     }
 }

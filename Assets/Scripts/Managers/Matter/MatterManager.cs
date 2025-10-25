@@ -12,7 +12,7 @@ public class MatterManager : MonoBehaviour
     [SerializeField] private Transform matterParent;
 
     [Header("Runtime Data")]
-    public MatterData data => MatterTierManager.Instance.tierData.CurrentTierData;
+    public MatterData Data => MatterTierManager.Instance.tierData.CurrentTierData;
 
     private readonly List<Matter> activeMatter = new();
 
@@ -33,8 +33,6 @@ public class MatterManager : MonoBehaviour
 
     private void Start()
     {
-        // Load or initialize base data
-        data ??= new MatterData();
         StartCoroutine(MatterSpawner());
     }
 
@@ -42,25 +40,34 @@ public class MatterManager : MonoBehaviour
     {
         while (true)
         {
-            if (activeMatter.Count < data.maxActiveMatter)
+            if (activeMatter.Count < Data.maxActiveMatter)
             {
                 SpawnMatter();
             }
-            yield return new WaitForSeconds(data.spawnInterval);
+            yield return new WaitForSeconds(Data.spawnInterval);
         }
     }
 
     public void SpawnMatter()
     {
         Vector3 spawnPos = GetRandomSpawnPosition();
-        Matter newMatter = Instantiate(matterPrefab, spawnPos, Quaternion.identity, matterParent);
-        newMatter.Initialize(data);
+        Matter newMatter = Instantiate(matterPrefab, spawnPos, Quaternion.identity);
+        newMatter.Initialize(Data);
+        Vector3 dropperScale = matterParent.transform.localScale;
+        float xScale = dropperScale.x * 0.05f * Data.scale;
+        float yScale = dropperScale.y * 15 * Data.scale;
         activeMatter.Add(newMatter);
     }
 
     private Vector3 GetRandomSpawnPosition()
     {
-        return new Vector3(Random.Range(-5f, 5f), 5f, 0f);
+        BoxCollider2D collider = matterParent.GetComponent<BoxCollider2D>();
+        Bounds bounds = collider.bounds;
+
+        float x = Random.Range(bounds.min.x, bounds.max.x);
+        float y = Random.Range(bounds.min.y, bounds.max.y);
+
+        return new Vector3(x, y, 0);
     }
 
     public void RemoveMatter(Matter matter)
@@ -79,21 +86,8 @@ public class MatterManager : MonoBehaviour
         activeMatter.Clear();
     }
 
-    public void ApplyUpgrades(MatterData newData)
-    {
-        data = newData;
-    }
-
     public List<MatterData> GetMatterSaveData()
     {
-        return new List<MatterData> { data };
-    }
-
-    public void UpdateAllMatterStats()
-    {
-        foreach (var matter in activeMatter)
-        {
-            matter.ApplyData(data);
-        }
+        return new List<MatterData> { Data };
     }
 }

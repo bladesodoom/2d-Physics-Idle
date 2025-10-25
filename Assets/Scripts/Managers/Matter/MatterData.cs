@@ -9,10 +9,11 @@ public class MatterData
     public int tierIndex = 1;
     public float baseValue = 1f;
     public float damage = 5f;
-    public float scale = 1f;
+    public float scale = 3f;
 
     [Header("Spawn Settings")]
     public int maxActiveMatter = 10;
+    public float spawnInterval = 5;
 
     [Header("Upgrade Levels")]
     public int valueLevel = 0;

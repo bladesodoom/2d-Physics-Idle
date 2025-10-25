@@ -9,13 +9,10 @@ public class ConveyorManager : MonoBehaviour
     [Header("References")]
     public GameObject conveyorPrefab;
     public Transform blackholeCenter;
-    public BoardManager boardManager;
 
     [Header("Settings")]
     public float offsetFromHole = 2f;
     public int conveyorsPerSide = 1;
-
-    public Rect BoardBounds => boardManager.BoardBounds;
 
     private List<Conveyor> allConveyors = new();
 
@@ -38,11 +35,7 @@ public class ConveyorManager : MonoBehaviour
     {
         ClearConveyors();
 
-        Vector2 rightSpawn = new Vector2(BoardBounds.center.x + offsetFromHole, blackholeCenter.position.y);
-        Vector2 leftSpawn = new Vector2(BoardBounds.center.x - offsetFromHole, blackholeCenter.position.y);
-
-        CreateConveyor(leftSpawn, Conveyor.ConveyorSide.Left);
-        CreateConveyor(rightSpawn, Conveyor.ConveyorSide.Right);
+        // CreateConveyor(position, side);
     }
 
     private void CreateConveyor(Vector2 position, Conveyor.ConveyorSide side)

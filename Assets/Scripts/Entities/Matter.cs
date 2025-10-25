@@ -10,7 +10,6 @@ public class Matter : MonoBehaviour
     public void Initialize(MatterData data)
     {
         this.data = data;
-        transform.localScale = Vector3.one * data.scale;
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
 
@@ -31,7 +30,8 @@ public class Matter : MonoBehaviour
             if (peg != null)
             {
                 peg.TakeDamage(data.damage);
-                CurrencyManager.Instance.AddCurrency(data.baseValue);
+                CurrencyManager.Instance.Add("$", data.baseValue);
+                FloatingTextManager.Instance.SpawnMoneyText(other.transform.position, data.baseValue, 1);
             }
 
             MatterManager.Instance.RemoveMatter(this);

@@ -46,7 +46,6 @@ public class DividerUpgradeManager : MonoBehaviour
             level++;
             onUpgrade.Invoke();
             OnDividerUpgraded?.Invoke();
-            UIManager.Instance?.UpdateDividerText();
         }
         else
         {

@@ -56,8 +56,6 @@ public class DropperUpgradeManager : MonoBehaviour
             onUpgrade.Invoke();
 
             OnDropperUpgraded?.Invoke();
-
-            UIManager.Instance?.UpdateDropperText();
         }
         else
         {

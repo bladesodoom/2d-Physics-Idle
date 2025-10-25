@@ -14,4 +14,9 @@ public class Peg : MonoBehaviour
         currentHP = data.maxHP;
         upgradeCost = data.upgradeCost;
     }
+
+    public void TakeDamage(float amount)
+    {
+        currentHP -= amount;
+    }
 }

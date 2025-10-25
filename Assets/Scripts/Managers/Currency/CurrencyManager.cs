@@ -81,7 +81,7 @@ public class CurrencyManager : MonoBehaviour
     }
 
     public bool TrySpend(double cost) => TrySpend("Money", cost);
-    public void Add(double amount) => Add("Money", amount);
+    public void AddMoney(double amount) => Add("Money", amount);
 
     public CurrencyData GetCurrency(string name)
     {

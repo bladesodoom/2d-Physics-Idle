@@ -8,10 +8,7 @@ public class DividerManager : MonoBehaviour
 
     [Header("Prefabs")]
     [SerializeField] private GameObject dividerWallPrefab;
-    [SerializeField] private GameObject dividerZonePrefab;
-
-    [Header("References")]
-    [SerializeField] private BoardManager boardManager;
+    private Transform effectZone;
 
     [Header("Layout")]
     public int baseDividerCount = 6;
@@ -33,6 +30,8 @@ public class DividerManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        effectZone = dividerWallPrefab.GetComponentInChildren<Transform>();
     }
 
     private void OnEnable()
@@ -50,49 +49,7 @@ public class DividerManager : MonoBehaviour
         ClearDividers();
         allDividers.Clear();
 
-        Rect board = boardManager.BoardBounds;
-        float yPos = board.yMin + dividerHeight * 0.5f;
-        int count = GetCurrentDividerCount();
-        float spacing = board.width / count;
-        float startX = board.xMin;
-
-        for (int i = 0; i <= count; i++)
-        {
-            float wallX = startX + i * spacing;
-            Vector2 wallPos = new(wallX, yPos);
-            GameObject wall = Instantiate(dividerWallPrefab, wallPos, Quaternion.identity, transform);
-            wall.transform.localScale = new Vector3(wallThickness, dividerHeight, 1f);
-            wall.name = $"DividerWall_{i}";
-            walls.Add(wall);
-
-            if (i > 0)
-            {
-                float zoneX = startX + (i - 0.5f) * spacing;
-                Vector2 zonePos = new(zoneX, yPos + zoneHeight * 0.5f);
-
-                GameObject zone = Instantiate(dividerZonePrefab, zonePos, Quaternion.identity, transform);
-                zone.transform.localScale = new Vector3(spacing - wallThickness, zoneHeight, 1f);
-                zone.name = $"DividerZone_{i - 1}";
-
-                var trigger = zone.GetComponent<DividerZoneTrigger>();
-                if (trigger == null)
-                    trigger = zone.AddComponent<DividerZoneTrigger>();
-
-                DividerData data = new DividerData
-                {
-                    index = i - 1,
-                    multiplier = GetCurrentMultiplier(i - 1),
-                    width = spacing,
-                    position = zonePos
-                };
-
-                trigger.Setup(data);
-                allDividers.Add(data);
-                zones.Add(zone);
-            }
-        }
-
-        Debug.Log($"[DividerManager] Built {zones.Count} zones and {walls.Count} walls.");
+        // Build divider between inner walls above the blackhole
     }
 
     private void ClearDividers()

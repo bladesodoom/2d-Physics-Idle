@@ -54,8 +54,6 @@ public class PegUpgradeManager : MonoBehaviour
         {
             level++;
             onUpgrade.Invoke();
-
-            UIManager.Instance?.UpdatePegText();
         }
         else
         {
@@ -90,7 +88,8 @@ public class PegUpgradeManager : MonoBehaviour
         data.maxHP *= hpGrowth;
 
         foreach (Peg peg in pegManager.allPegs)
-            peg.maxHP = data.maxHP;
+            peg.currentHP = data.maxHP;
 
         Debug.Log($"Peg HP upgraded! New max: {data.maxHP:F2}");
     }
+}

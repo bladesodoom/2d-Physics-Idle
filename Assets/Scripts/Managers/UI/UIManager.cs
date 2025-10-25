@@ -8,16 +8,16 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
 
+    [Header("Info Text")]
+    [SerializeField] private TMP_Text collapseText;
+    [SerializeField] private TMP_Text ascendText;
+    [SerializeField] private TMP_Text evolutionText;
+
     [Header("Currency UI Elements")]
     [SerializeField] private TMP_Text moneyText;
     [SerializeField] private TMP_Text singularityText;
     [SerializeField] private TMP_Text ascensionText;
     [SerializeField] private TMP_Text essenceText;
-
-    [Header("System Info UI Elements")]
-    [SerializeField] private TMP_Text pegInfoText;
-    [SerializeField] private TMP_Text dropperInfoText;
-    [SerializeField] private TMP_Text dividerInfoText;
 
     private Dictionary<string, TMP_Text> currencyTextLookup = new();
 
@@ -37,17 +37,11 @@ public class UIManager : MonoBehaviour
     private void OnEnable()
     {
         CurrencyManager.OnCurrencyChanged += HandleCurrencyChanged;
-        PegUpgradeManager.OnPegUpgraded += UpdatePegText;
-        DropperUpgradeManager.OnDropperUpgraded += UpdateDropperText;
-        DividerUpgradeManager.OnDividerUpgraded += UpdateDividerText;
     }
 
     private void OnDisable()
     {
         CurrencyManager.OnCurrencyChanged -= HandleCurrencyChanged;
-        PegUpgradeManager.OnPegUpgraded -= UpdatePegText;
-        DropperUpgradeManager.OnDropperUpgraded -= UpdateDropperText;
-        DividerUpgradeManager.OnDividerUpgraded -= UpdateDividerText;
     }
 
     private void RegisterCurrencyTexts()
@@ -81,45 +75,8 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void UpdatePegText()
-    {
-        if (!pegInfoText) return;
-
-        var tier = PegTierManager.Instance.tierData.CurrentTierData;
-        pegInfoText.text =
-            $"Peg Tier {tier.tierIndex + 1}\n" +
-            $"Value: {tier.baseValue:F2}\n" +
-            $"HP: {tier.maxHP:F0}";
-    }
-
-    public void UpdateDropperText()
-    {
-        if (!dropperInfoText) return;
-
-        var dropper = DropperManager.Instance;
-        dropperInfoText.text =
-            $"Dropper\n" +
-            $"Rate: {dropper.spawnRate:F2}s\n" +
-            $"Count: {dropper.spawnCount}\n" +
-            $"Value +{dropper.additionalMatterValue:F1}";
-    }
-
-    public void UpdateDividerText()
-    {
-        if (!dividerInfoText) return;
-
-        var dividerUp = DividerUpgradeManager.Instance;
-        int total = DividerManager.Instance.baseDividerCount + dividerUp.dividerCountBonus;
-        dividerInfoText.text =
-            $"Dividers: {total}\n" +
-            $"Multiplier: x{dividerUp.valueMultiplier:F2}";
-    }
-
     public void RefreshAllUI()
     {
         UpdateAllCurrencyTexts();
-        UpdatePegText();
-        UpdateDropperText();
-        UpdateDividerText();
     }
 }

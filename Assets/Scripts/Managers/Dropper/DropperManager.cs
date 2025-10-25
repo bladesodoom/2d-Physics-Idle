@@ -41,7 +41,6 @@ public class DropperManager : MonoBehaviour
 
     private void ApplyUpgrades()
     {
-        // Reapply values or rebuild any dependent systems (e.g. Dropper positions)
         Debug.Log("[DropperManager] Dropper stats updated!");
     }
 

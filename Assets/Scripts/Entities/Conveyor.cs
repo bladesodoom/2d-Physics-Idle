@@ -24,14 +24,12 @@ public class Conveyor : MonoBehaviour
     private Vector2 targetPosition;
     private Quaternion targetRotation;
     private bool movingVertical = false;
-    private bool movingUp = true;
 
     private void Start()
     {
         if (data != null)
             moveSpeed = data.moveSpeed;
 
-        boardBounds = ConveyorManager.Instance.BoardBounds;
         InitializeDirection();
     }
 

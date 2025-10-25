@@ -34,6 +34,6 @@ public class Dropper : MonoBehaviour
             MatterManager.Instance.SpawnMatter();
         }
 
-        Debug.Log($"[Dropper] Dropped {spawnCount} Matter(s) at efficiency {efficiency}");
+        Debug.Log($"[Dropper] Dropped {spawnCount}");
     }
 }
