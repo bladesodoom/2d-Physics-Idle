@@ -29,6 +29,7 @@ public class ConveyorManager : MonoBehaviour
         Conveyor conveyor = newConv.GetComponent<Conveyor>();
         conveyor.InitializeConv(waypoints);
     }
+
     void OnDrawGizmos()
     {
         if (waypoints == null || waypoints.Length < 2) return;
