@@ -1,10 +1,13 @@
+using System.Collections;
+
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
 public class Conveyor : MonoBehaviour
 {
-    private float moveSpeed = 3f;
-    private float rotationSpeed = 180;
+    // Calculate rotation speed based on move speed and distance between the specifc indexs of waypoints
+    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float rotationSpeed = 200;
 
     private Transform[] waypoints;
     private int pointIndex = 0;
@@ -31,6 +34,7 @@ public class Conveyor : MonoBehaviour
     {
         if (pointIndex >= waypoints.Length - 1)
         {
+            StartCoroutine(DespawnDelay());
             Destroy(gameObject);
             return;
         }
@@ -59,6 +63,11 @@ public class Conveyor : MonoBehaviour
         }
     }
 
+    private IEnumerator DespawnDelay()
+    {
+        yield return new WaitForSeconds(1);
+    }
+
     private bool IsRotationZone(int index)
     {
         return index == 1 || index == 3;
@@ -71,16 +80,5 @@ public class Conveyor : MonoBehaviour
         if (index == 3)
             return Quaternion.Euler(0f, 0f, 180f);
         return transform.rotation;
-    }
-
-    private void OnDrawGizmos()
-    {
-        if (waypoints == null || waypoints.Length == 0) return;
-
-        Gizmos.color = Color.cyan;
-        for (int i = 0; i < waypoints.Length - 1; i++)
-        {
-            Gizmos.DrawLine(waypoints[i].position, waypoints[i + 1].position);
-        }
     }
 }

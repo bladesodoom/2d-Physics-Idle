@@ -29,8 +29,8 @@ Transform:
   m_GameObject: {fileID: 459481318705589442}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.57756, y: -16.11124, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -168,3 +168,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b3e88b6b02faa04bbc17bf6ac62c220, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Matter
+  scale: 2.5
+  value: 1
+  damage: 5

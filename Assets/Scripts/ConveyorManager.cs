@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ConveyorManager : MonoBehaviour
+public class ConveyorManager : Manager<ConveyorManager>
 {
     [SerializeField] private GameObject conveyorPrefab;
     [SerializeField] private GameObject spawnPoint;
@@ -26,6 +26,7 @@ public class ConveyorManager : MonoBehaviour
     private void SpawnConveyor()
     {
         GameObject newConv = Instantiate(conveyorPrefab, spawnPoint.transform.position, Quaternion.identity);
+        newConv.transform.SetParent(transform);
         Conveyor conveyor = newConv.GetComponent<Conveyor>();
         conveyor.InitializeConv(waypoints);
     }

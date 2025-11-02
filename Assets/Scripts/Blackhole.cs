@@ -18,9 +18,16 @@ public class Blackhole : MonoBehaviour
         ApplyGravity();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D other)
     {
-        Destroy(collision.gameObject);
+        if (other.gameObject.CompareTag("Matter"))
+        {
+            Matter matter = other.gameObject.GetComponent<Matter>();
+            float amount = matter.Value;
+            CurrencyManager.Instance.AddCurrency(amount, CurrencyManager.CurrencyType.M);
+            // spawn floating text with the specific color in a positive direction from the collision point
+            MatterManager.Instance.Despawn(matter);
+        }
     }
 
     private void ApplyGravity()
@@ -42,5 +49,4 @@ public class Blackhole : MonoBehaviour
             }
         }
     }
-
 }
