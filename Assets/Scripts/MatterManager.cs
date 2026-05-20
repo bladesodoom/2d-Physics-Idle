@@ -1,20 +1,16 @@
 using UnityEngine;
 
-public class MatterManager : Manager<MatterManager>
+public class MatterManager : MonoBehaviour
 {
-    [SerializeField] private Matter matterPrefab;
-    [SerializeField] private int initialPoolSize = 50;
-
-    private ObjectPool<Matter> pool;
-
-    public override void Initialize()
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
     {
-        base.Initialize();
-        pool = new ObjectPool<Matter>(matterPrefab, initialPoolSize, transform);
+        
     }
 
-    public void Despawn(Matter matter)
+    // Update is called once per frame
+    void Update()
     {
-        pool.ReturnToPool(matter);
+        
     }
 }

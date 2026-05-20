@@ -1,7 +1,16 @@
-public class PegManager : Manager<PegManager>
-{
-    public void Initialize()
-    {
+using UnityEngine;
 
+public class PegManager : MonoBehaviour
+{
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
     }
 }

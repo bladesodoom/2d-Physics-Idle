@@ -3,8 +3,8 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class Blackhole : MonoBehaviour
 {
-    [SerializeField] float gravityForce = 10;
-    [SerializeField] float gravityRange = 10;
+    [SerializeField] float gravityForce;
+    [SerializeField] float gravityRange;
 
     private Collider2D holeCollider;
 
@@ -22,11 +22,7 @@ public class Blackhole : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Matter"))
         {
-            Matter matter = other.gameObject.GetComponent<Matter>();
-            float amount = matter.Value;
-            CurrencyManager.Instance.AddCurrency(amount, CurrencyManager.CurrencyType.M);
-            // spawn floating text with the specific color in a positive direction from the collision point
-            MatterManager.Instance.Despawn(matter);
+            Destroy(other.gameObject);
         }
     }
 

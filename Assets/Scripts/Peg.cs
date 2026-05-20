@@ -4,9 +4,9 @@ using UnityEngine;
 public class Peg : MonoBehaviour
 {
     [Header("Stats")]
-    [Range(0.5f, 5)][SerializeField] private float scale = 3;
-    [SerializeField] private float value = 1;
-    [SerializeField] private float health = 25;
+    [Range(0.5f, 5)][SerializeField] private float scale;
+    [SerializeField] private float value;
+    [SerializeField] private float health;
     public float Scale { get => scale; }
     public float Value { get => value; }
     public float Health { get => health; }
@@ -24,14 +24,13 @@ public class Peg : MonoBehaviour
         {
             float damage = other.gameObject.GetComponent<Matter>().Damage;
             TakeDamage(damage);
-            CurrencyManager.Instance.AddCurrency(Value, CurrencyManager.CurrencyType.M);
         }
     }
 
     private void TakeDamage(float amount)
     {
         health -= amount;
-        // Spawn floating text with red color negative y at collision point
+
         if (health <= 0)
         {
             Destroy(gameObject);

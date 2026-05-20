@@ -9,7 +9,7 @@ public class Dropper : MonoBehaviour
     private GameObject dropper;
 
     [Header("Dropper Stats")]
-    [SerializeField] private float spawnRate = 5;
+    [SerializeField] private float spawnRate;
 
     private float timer;
 
@@ -18,6 +18,7 @@ public class Dropper : MonoBehaviour
         dropper = this.gameObject;
         timer = Time.deltaTime;
     }
+
     public void Update()
     {
         timer += Time.deltaTime;
@@ -31,7 +32,6 @@ public class Dropper : MonoBehaviour
     private void SpawnMatter()
     {
         Vector3 spawnPositon = GetRandomPosition();
-        Debug.Log($"Spawn pos: {spawnPositon}");
         GameObject newMatter = Instantiate(matterPrefab, spawnPositon, Quaternion.identity);
         newMatter.transform.SetParent(matterParent.transform);
     }
@@ -40,8 +40,6 @@ public class Dropper : MonoBehaviour
     {
         BoxCollider2D collider = dropper.GetComponent<BoxCollider2D>();
         Bounds bounds = collider.bounds;
-
-
 
         float ranX = Random.Range(bounds.min.x, bounds.max.x);
         float ranY = Random.Range(bounds.min.y, bounds.max.y);

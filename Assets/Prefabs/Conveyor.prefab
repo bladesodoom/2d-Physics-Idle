@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6419461642488789429}
   - component: {fileID: 8099592973148480535}
   - component: {fileID: 2930359735471122838}
-  - component: {fileID: -5440883038980326025}
+  - component: {fileID: 4849208929683177555}
   m_Layer: 0
   m_Name: Conveyor
   m_TagString: Untagged
@@ -138,7 +138,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &-5440883038980326025
+--- !u!114 &4849208929683177555
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -150,3 +150,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c490d8a256e4c742878ae90fff3f4d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Conveyor
+  moveSpeed: 5
+  rotationSpeed: 200

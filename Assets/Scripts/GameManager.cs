@@ -14,17 +14,4 @@ public class GameManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(Instance);
     }
-
-    private void Start()
-    {
-        InitializeManagers();
-    }
-
-    private void InitializeManagers()
-    {
-        CurrencyManager.Instance.Initialize();
-        MatterManager.Instance.Initialize();
-        PegManager.Instance.Initialize();
-        UIManager.Instance.Initialize();
-    }
 }

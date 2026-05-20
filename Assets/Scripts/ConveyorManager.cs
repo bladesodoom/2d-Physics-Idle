@@ -1,10 +1,12 @@
 using UnityEngine;
 
-public class ConveyorManager : Manager<ConveyorManager>
+public class ConveyorManager : MonoBehaviour
 {
     [SerializeField] private GameObject conveyorPrefab;
-    [SerializeField] private GameObject spawnPoint;
-    [SerializeField] private Transform[] waypoints;
+
+    [SerializeField] private Transform leftSpawn;
+    [SerializeField] private Transform rightSpawn;
+
     [SerializeField] private float spawnRate;
 
     private float timer;
@@ -13,35 +15,20 @@ public class ConveyorManager : Manager<ConveyorManager>
     {
         timer = Time.deltaTime;
     }
+
     private void Update()
     {
         timer += Time.deltaTime;
         if (timer >= spawnRate)
         {
-            SpawnConveyor();
+            SpawnConveyors();
             timer = Time.deltaTime;
         }
     }
 
-    private void SpawnConveyor()
+    private void SpawnConveyors()
     {
-        GameObject newConv = Instantiate(conveyorPrefab, spawnPoint.transform.position, Quaternion.identity);
-        newConv.transform.SetParent(transform);
-        Conveyor conveyor = newConv.GetComponent<Conveyor>();
-        conveyor.InitializeConv(waypoints);
-    }
-
-    void OnDrawGizmos()
-    {
-        if (waypoints == null || waypoints.Length < 2) return;
-
-        for (int i = 0; i < waypoints.Length - 1; i++)
-        {
-            if (waypoints[i] != null && waypoints[i + 1] != null)
-            {
-                Gizmos.color = Color.green;
-                Gizmos.DrawLine(waypoints[i].position, waypoints[i + 1].position);
-            }
-        }
+        GameObject lConveyor = Instantiate(conveyorPrefab, leftSpawn.position, Quaternion.identity);
+        GameObject rConveyor = Instantiate(conveyorPrefab, rightSpawn.position, Quaternion.identity);
     }
 }

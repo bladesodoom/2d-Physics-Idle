@@ -4,9 +4,9 @@ using UnityEngine;
 public class Matter : MonoBehaviour
 {
     [Header("Stats")]
-    [Range(0.5f, 5)][SerializeField] private float scale = 3;
-    [SerializeField] private float value = 1;
-    [SerializeField] private float damage = 5;
+    [Range(0.5f, 5)][SerializeField] private float scale;
+    [SerializeField] private float value;
+    [SerializeField] private float damage;
 
     public float Scale { get => scale; }
     public float Value { get => value; }
@@ -19,21 +19,11 @@ public class Matter : MonoBehaviour
             Peg peg = other.gameObject.GetComponent<Peg>();
             float amount = peg.Value;
             IncreaseValue(amount);
-            // Spawn floating text with currency color, positive Y, at collision point
         }
     }
+
     public void IncreaseValue(float amount)
     {
         value += amount;
-    }
-
-    public void DecreaseSize()
-    {
-        scale *= 0.95f;
-    }
-
-    public void DecreaseDamage()
-    {
-        damage *= 0.95f;
     }
 }
