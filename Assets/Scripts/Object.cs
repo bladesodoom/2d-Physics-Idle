@@ -1,23 +1,20 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
-public class Matter : MonoBehaviour
+public class FObject : MonoBehaviour
 {
     [Header("Stats")]
-    [Range(0.5f, 5)][SerializeField] private float scale;
     [SerializeField] private float value;
-    [SerializeField] private float damage;
+    [SerializeField] private float spawnRateFactor;
 
-    public float Scale { get => scale; }
     public float Value { get => value; }
-    public float Damage { get => damage; }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Peg"))
+        if (other.gameObject.CompareTag("Obstacle"))
         {
-            Peg peg = other.gameObject.GetComponent<Peg>();
-            float amount = peg.Value;
+            Obstacle obstacle = other.gameObject.GetComponent<Obstacle>();
+            float amount = obstacle.Value;
             IncreaseValue(amount);
         }
     }

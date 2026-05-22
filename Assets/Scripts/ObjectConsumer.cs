@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
-public class Blackhole : MonoBehaviour
+public class ObjectConsumer : MonoBehaviour
 {
     [SerializeField] float gravityForce;
     [SerializeField] float gravityRange;
@@ -20,7 +20,7 @@ public class Blackhole : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Matter"))
+        if (other.gameObject.CompareTag("FObject"))
         {
             Destroy(other.gameObject);
         }
@@ -31,12 +31,12 @@ public class Blackhole : MonoBehaviour
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, gravityRange);
         foreach (var col in colliders)
         {
-            if (col.TryGetComponent<Matter>(out var matter))
+            if (col.TryGetComponent<FObject>(out var fObject))
             {
                 if (holeCollider.bounds.Contains(col.transform.position))
                     continue;
 
-                Rigidbody2D rb = matter.GetComponent<Rigidbody2D>();
+                Rigidbody2D rb = fObject.GetComponent<Rigidbody2D>();
                 if (rb != null)
                 {
                     Vector2 dir = ((Vector2)transform.position - rb.position).normalized;

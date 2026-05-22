@@ -3,8 +3,8 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class Dropper : MonoBehaviour
 {
-    [SerializeField] private GameObject matterParent;
-    [SerializeField] private GameObject matterPrefab;
+    [SerializeField] private GameObject objectParent;
+    [SerializeField] private GameObject objectPrefab;
 
     private GameObject dropper;
 
@@ -24,16 +24,16 @@ public class Dropper : MonoBehaviour
         timer += Time.deltaTime;
         if (timer >= spawnRate)
         {
-            SpawnMatter();
+            SpawnObject();
             timer = Time.deltaTime;
         }
     }
 
-    private void SpawnMatter()
+    private void SpawnObject()
     {
         Vector3 spawnPositon = GetRandomPosition();
-        GameObject newMatter = Instantiate(matterPrefab, spawnPositon, Quaternion.identity);
-        newMatter.transform.SetParent(matterParent.transform);
+        GameObject newObject = Instantiate(objectPrefab, spawnPositon, Quaternion.identity);
+        newObject.transform.SetParent(objectParent.transform);
     }
 
     private Vector3 GetRandomPosition()
