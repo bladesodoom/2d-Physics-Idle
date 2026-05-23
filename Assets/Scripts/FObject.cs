@@ -5,7 +5,6 @@ public class FObject : MonoBehaviour
 {
     [Header("Stats")]
     [SerializeField] private float value;
-    [SerializeField] private float spawnRateFactor;
 
     public float Value { get => value; }
 

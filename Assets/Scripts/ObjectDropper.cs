@@ -1,9 +1,8 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
-public class Dropper : MonoBehaviour
+public class ObjectDropper : MonoBehaviour
 {
-    [SerializeField] private GameObject objectParent;
     [SerializeField] private GameObject objectPrefab;
 
     private GameObject dropper;
@@ -33,7 +32,7 @@ public class Dropper : MonoBehaviour
     {
         Vector3 spawnPositon = GetRandomPosition();
         GameObject newObject = Instantiate(objectPrefab, spawnPositon, Quaternion.identity);
-        newObject.transform.SetParent(objectParent.transform);
+        newObject.transform.SetParent(this.transform);
     }
 
     private Vector3 GetRandomPosition()
