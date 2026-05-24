@@ -15,7 +15,7 @@ public class ObstacleBuilder : MonoBehaviour
     private float objectWidth;
     private float objectHeight;
 
-    private void Awake()
+    public void DoInitialize()
     {
         Vector3 obstacleScale = obstaclePrefab.transform.localScale;
         Vector2 obstacleSprite = obstaclePrefab.GetComponent<SpriteRenderer>().sprite.bounds.size;
@@ -55,8 +55,7 @@ public class ObstacleBuilder : MonoBehaviour
                 GameObject newObject = Instantiate(
                     obstaclePrefab,
                     new Vector3(currentX, currentY, 0f),
-                    Quaternion.identity,
-                    obstacleParent.transform
+                    Quaternion.identity
                 );
 
                 newObject.name = $"Obstacle_{index++}";
