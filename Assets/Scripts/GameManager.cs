@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     [SerializeField] private SaveManager saveManager;
+    [SerializeField] private CurrencyManager currencyManager;
+    [SerializeField] private UIManager uiManager;
 
     public SaveData CurrentSave { get; private set; }
 
@@ -28,12 +31,18 @@ public class GameManager : MonoBehaviour
     private async Task InitializeAsync()
     {
         CurrentSave = await saveManager.LoadAsync();
+        BuildManagers();
         ApplySave(CurrentSave);
+    }
+
+    private void BuildManagers()
+    {
+        // TODO: Implement - Initialize other manager classes here
     }
 
     private void ApplySave(SaveData data)
     {
-        // TODO: Implement
+        // TODO: Implement - Apply loaded save data to the game state here
     }
 
     public async Task SaveAsync()
