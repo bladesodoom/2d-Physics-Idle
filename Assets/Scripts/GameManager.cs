@@ -1,10 +1,13 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    [SerializeField] private GameObject obstacleBuilder;
+    [SerializeField] private SaveManager saveManager;
+
+    public SaveData CurrentSave { get; private set; }
 
     private void Awake()
     {
@@ -15,13 +18,32 @@ public class GameManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(Instance);
-
-        Initializer();
     }
 
-    private void Initializer()
+    private async void Start()
     {
-        ObstacleBuilder builder = obstacleBuilder.GetComponent<ObstacleBuilder>();
-        builder.DoInitialize();
+        await InitializeAsync();
+    }
+
+    private async Task InitializeAsync()
+    {
+        CurrentSave = await saveManager.LoadAsync();
+        ApplySave(CurrentSave);
+    }
+
+    private void ApplySave(SaveData data)
+    {
+        // TODO: Implement
+    }
+
+    public async Task SaveAsync()
+    {
+        // Collect all current game state into CurrentSave here
+        await saveManager.SaveAsync(CurrentSave);
+    }
+
+    private void OnApplicationQuit()
+    {
+        _ = SaveAsync();
     }
 }
