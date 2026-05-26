@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private SaveManager saveManager;
     [SerializeField] private CurrencyManager currencyManager;
+    [SerializeField] private UpgradeManager upgradeManager;
     [SerializeField] private UIManager uiManager;
 
     public SaveData CurrentSave { get; private set; }
@@ -37,17 +38,20 @@ public class GameManager : MonoBehaviour
 
     private void BuildManagers()
     {
-        // TODO: Implement - Initialize other manager classes here
+        // TODO: Implement - Create all manager instances here, call their DoStart()
+        currencyManager.DoStart();
+        uiManager.DoStart();
     }
 
     private void ApplySave(SaveData data)
     {
-        // TODO: Implement - Apply loaded save data to the game state here
+        // TODO: Implement - Apply loaded save data to the respective managers
+        CurrencyManager.Instance.InitializeStats(data.money);
     }
 
     public async Task SaveAsync()
     {
-        // Collect all current game state into CurrentSave here
+        // TODO: Implement - Update CurrentSave with the latest game state before saving
         await saveManager.SaveAsync(CurrentSave);
     }
 

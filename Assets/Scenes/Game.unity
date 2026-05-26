@@ -32620,6 +32620,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   saveManager: {fileID: 1816335122}
   currencyManager: {fileID: 1016877560}
+  upgradeManager: {fileID: 0}
   uiManager: {fileID: 898636013}
 --- !u!4 &1407419244
 Transform:

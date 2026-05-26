@@ -4,9 +4,15 @@ using UnityEngine;
 public class FObject : MonoBehaviour
 {
     [Header("Stats")]
-    [SerializeField] private float value;
+    public float value { get; private set; }
+    public float size { get; private set; }
+    public float spawnRateFactor { get; private set; }
+    public int maxQuantity {get; private set; }
 
-    public float Value { get => value; }
+    public void InitializeStats(float saveValue, float saveSize, float saveSpawnRate, int saveMaxQuantity)
+    {
+        value = saveValue; size = saveSize; spawnRateFactor = saveSpawnRate; maxQuantity = saveMaxQuantity;
+    }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
@@ -21,5 +27,10 @@ public class FObject : MonoBehaviour
     public void IncreaseValue(float amount)
     {
         value += amount;
+    }
+
+    public void DecreaseValue(float amount)
+    {
+        value = Mathf.Max(0, value - amount);
     }
 }

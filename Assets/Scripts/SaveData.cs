@@ -5,10 +5,16 @@ using UnityEditor;
 public class SaveData
 {
     // Currencies
+    public float money;
 
-    // Falling Object Upgrades
+    // Object Upgrades
+    public float objectValue;
+    public float size;
+    public float spawnRateFactor;
+    public int maxQuantity;
 
     // Obstacle Upgrades
+    public float obstacleValue;
 
     // Dropper Upgrades
 
