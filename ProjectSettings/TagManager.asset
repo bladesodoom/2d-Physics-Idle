@@ -4,9 +4,9 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Peg
-  - Blackhole
-  - Matter
+  - FObject
+  - Obstacle
+  - ObjectConsumer
   layers:
   - Default
   - TransparentFX
@@ -14,9 +14,9 @@ TagManager:
   - Game
   - Water
   - UI
-  - Matter
-  - Peg
-  - Blackhole
+  - FObject
+  - Obstacle
+  - ObjectConsumer
   - 
   - 
   - 
@@ -46,3 +46,4 @@ TagManager:
     locked: 0
   m_RenderingLayers:
   - Default
+  m_MigratedRenderPipelines: []
