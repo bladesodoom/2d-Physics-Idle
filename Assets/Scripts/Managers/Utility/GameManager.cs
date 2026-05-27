@@ -8,7 +8,6 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private SaveManager saveManager;
     [SerializeField] private CurrencyManager currencyManager;
-    [SerializeField] private UpgradeManager upgradeManager;
     [SerializeField] private UIManager uiManager;
 
     public SaveData CurrentSave { get; private set; }
