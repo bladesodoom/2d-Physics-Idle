@@ -20,7 +20,6 @@ public class GameManager : MonoBehaviour
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(Instance);
     }
 
     private async void Start()

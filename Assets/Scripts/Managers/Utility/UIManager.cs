@@ -13,6 +13,5 @@ public class UIManager : MonoBehaviour
     public void DoStart()
     {
         Instance = this;
-        DontDestroyOnLoad(Instance);
     }
 }

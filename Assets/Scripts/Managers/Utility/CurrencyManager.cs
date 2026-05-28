@@ -9,7 +9,6 @@ public class CurrencyManager : MonoBehaviour
     public void DoStart()
     {
         Instance = this;
-        DontDestroyOnLoad(Instance);
     }
 
     public void InitializeStats(float saveMoney)
