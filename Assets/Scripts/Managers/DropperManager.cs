@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DropperManager : UpgradeManager
+public class DropperManager : UpgradeManager<DropperManager>
 {
     
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MultiplierManager : UpgradeManager
+public class MultiplierManager : UpgradeManager<MultiplierManager>
 {
     
 }

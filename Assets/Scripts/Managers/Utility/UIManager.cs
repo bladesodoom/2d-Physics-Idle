@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -7,8 +8,11 @@ public class UIManager : MonoBehaviour
     // different UI panels and update UI elements based on game state changes.
     public static UIManager Instance;
 
+    [SerializeField] private TextMeshProUGUI currencyText;
+
     public void DoStart()
     {
         Instance = this;
+        DontDestroyOnLoad(Instance);
     }
 }

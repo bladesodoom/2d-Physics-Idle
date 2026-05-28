@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ObstacleManager : UpgradeManager
+public class ObstacleManager : UpgradeManager<ObstacleManager>
 {
     
 }

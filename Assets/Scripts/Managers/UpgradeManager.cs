@@ -14,6 +14,7 @@ public abstract class UpgradeManager<T> : MonoBehaviour
             return;
         }
         Instance = this as T;
+        DontDestroyOnLoad(Instance);
     }
 
     public virtual void InitializeSave(SaveData saveData)
