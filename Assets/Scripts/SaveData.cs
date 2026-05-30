@@ -5,24 +5,24 @@ using UnityEditor;
 public class SaveData
 {
     // Currencies
-    public float money = 0f;
+    public float money;
 
     // Object Upgrades
-    public float objectValue = 1f;
-    public float objectSize = 2f;
-    public float objectSpawnRateFactor = 0.2f;
-    public int objectMaxQuantity = 20;
+    public float objectValue;
+    public float objectSize;
+    public float objectSpawnRateFactor;
+    public int objectMaxQuantity;
 
     // Obstacle Upgrades
-    public float obstacleValue = 0f;
+    public float obstacleValue;
 
     // Dropper Upgrades
 
     // Multiplier Upgrades
 
     // Conveyor Upgrades
-    public float conveyorSpeed = 1f;
-    public float conveyorSpawnRate = 2f;
+    public float conveyorSpeed;
+    public float conveyorSpawnRate;
 
     // Meta
     public string lastSaveTime;

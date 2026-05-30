@@ -3,25 +3,26 @@ using UnityEngine;
 public class ConveyorManager : UpgradeManager<ConveyorManager>
 {
     [SerializeField] private GameObject conveyorPrefab;
+
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private Transform leftDespawn;
     [SerializeField] private Transform rightDespawn;
 
-    private float ConveyorSpeed;
-    private float ConveyorSpawnRate;
+    private float conveyorSpeed;
+    private float conveyorSpawnRate;
 
     private float spawnTimer;
 
     public override void InitializeSave(SaveData saveData)
     {
-        ConveyorSpeed = saveData.conveyorSpeed;
-        ConveyorSpawnRate = saveData.conveyorSpawnRate;
+        conveyorSpeed = saveData.conveyorSpeed;
+        conveyorSpawnRate = saveData.conveyorSpawnRate;
     }
 
     private void Update()
     {
         spawnTimer += Time.deltaTime;
-        if (spawnTimer >= ConveyorSpawnRate)
+        if (spawnTimer >= conveyorSpawnRate)
         {
             SpawnConveyor();
             spawnTimer = 0f;
@@ -34,6 +35,6 @@ public class ConveyorManager : UpgradeManager<ConveyorManager>
         Conveyor conveyor = conveyorObj.GetComponent<Conveyor>();
         bool moveLeft = Random.value > 0.5f;
         Transform despawnPoint = moveLeft ? leftDespawn : rightDespawn;
-        conveyor.Initialize(ConveyorSpeed, moveLeft, despawnPoint);
+        conveyor.InitializeOBJ(conveyorSpeed, moveLeft, despawnPoint);
     }
 }

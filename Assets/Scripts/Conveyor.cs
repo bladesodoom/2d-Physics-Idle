@@ -6,7 +6,7 @@ public class Conveyor : MonoBehaviour
     public bool isMovingLeft { get; private set; }
     public Transform despawnPoint { get; private set; }
 
-    public void Initialize(float moveSpeed, bool direction, Transform despawn)
+    public void InitializeOBJ(float moveSpeed, bool direction, Transform despawn)
     {
         this.moveSpeed = moveSpeed;
         this.isMovingLeft = direction;
@@ -15,13 +15,31 @@ public class Conveyor : MonoBehaviour
 
     public void Update()
     {
-        if (isMovingLeft && this.transform.position.x > despawnPoint.transform.position.x)
+        Move();
+        CheckDespawn();
+    }
+
+    private void Move()
+    {
+        float direction = isMovingLeft ? -1f : 1f;
+        transform.Translate(Vector3.right * direction * moveSpeed * Time.deltaTime, Space.World);
+    }
+
+    private void CheckDespawn()
+    {
+        if (isMovingLeft)
         {
-            transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
+            if (transform.position.x <= despawnPoint.position.x)
+            {
+                Despawn();
+            }
         }
-        else if (!isMovingLeft && this.transform.position.x < despawnPoint.transform.position.x)
+        else
         {
-            transform.Translate(Vector3.back * moveSpeed * Time.deltaTime);
+            if (transform.position.x >= despawnPoint.position.x)
+            {
+                Despawn();
+            }
         }
     }
 

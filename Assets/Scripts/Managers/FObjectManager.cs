@@ -2,8 +2,5 @@ using UnityEngine;
 
 public class FObjectManager : UpgradeManager<FObjectManager>
 {
-    protected override void InitializeStats()
-    {
-
-    }
+    // TODO: Implement - This class should manage the FObject's stats and upgrades
 }

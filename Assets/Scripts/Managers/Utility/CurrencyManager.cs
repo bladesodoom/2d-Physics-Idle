@@ -1,20 +1,8 @@
 using UnityEngine;
 
-public class CurrencyManager : MonoBehaviour
+public class CurrencyManager : Manager<CurrencyManager>
 {
-    public static CurrencyManager Instance;
-
     public float currentMoney { get; private set; }
-
-    public void DoStart()
-    {
-        Instance = this;
-    }
-
-    public void InitializeStats(float saveMoney)
-    {
-        currentMoney = saveMoney;
-    }
 
     public void AddMoney(float amount)
     {

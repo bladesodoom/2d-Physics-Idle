@@ -7,7 +7,7 @@ using Unity.Services.CloudSave;
 using Unity.Services.Core;
 using UnityEngine;
 
-public class SaveManager : MonoBehaviour
+public class SaveManager : Manager<SaveManager>
 {
     [Header("Cloud Save")]
     [SerializeField] private bool useCloudSave = false;
