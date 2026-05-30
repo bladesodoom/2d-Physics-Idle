@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
-public class FObject : MonoBehaviour
+public class Ball : MonoBehaviour
 {
     [Header("Stats")]
     public float value { get; private set; }
