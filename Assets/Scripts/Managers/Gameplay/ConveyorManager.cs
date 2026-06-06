@@ -13,12 +13,6 @@ public class ConveyorManager : UpgradeManager<ConveyorManager>
 
     private float spawnTimer;
 
-    public override void InitializeSave(SaveData saveData)
-    {
-        conveyorSpeed = saveData.conveyorSpeed;
-        conveyorSpawnRate = saveData.conveyorSpawnRate;
-    }
-
     private void Update()
     {
         spawnTimer += Time.deltaTime;

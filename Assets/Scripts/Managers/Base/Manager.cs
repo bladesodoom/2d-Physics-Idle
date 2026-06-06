@@ -29,6 +29,7 @@ public abstract class Manager<T> : MonoBehaviour
 
     protected virtual void WriteToSave()
     {
-
+        // TODO: Implement - This method should be overridden by derived classes
+        // to save their specific stats back to the SaveData object.
     }
 }
