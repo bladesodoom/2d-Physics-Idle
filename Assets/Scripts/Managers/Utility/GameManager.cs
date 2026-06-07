@@ -1,10 +1,23 @@
-using System;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class GameManager : Manager<GameManager>
+public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
+
+    [SerializeField] private SaveManager saveManager;
+
     public SaveData CurrentSave { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
 
     private async void Start()
     {
@@ -13,14 +26,29 @@ public class GameManager : Manager<GameManager>
 
     private async Task InitializeAsync()
     {
-        // TODO: Implement - Load save data from disk or create a new save if none exists
-        await Task.Delay(1000); // Simulate async loading
+        CurrentSave = await saveManager.LoadAsync();
+        ApplySave(CurrentSave);
     }
+
+    private void ApplySave(SaveData data)
+    {
+        CurrencyManager.Instance.InitializeStats(data);
+        Debug.Log($"[GameManager] Save applied — money: {data.money}  last save: {data.lastSaveTime}");
+        ConveyorManager.Instance.InitializeSave(data);
+    }
+
 
     public async Task SaveAsync()
     {
-        // TODO: Implement - Update CurrentSave with the latest game state before saving
-        await Task.Delay(1000); // Simulate async saving
+        CurrentSave.money = CurrencyManager.Instance.currentMoney;
+
+        await saveManager.SaveAsync(CurrentSave);
+    }
+
+    private void OnApplicationPause(bool paused)
+    {
+        if (paused)
+            _ = SaveAsync();
     }
 
     private void OnApplicationQuit()
