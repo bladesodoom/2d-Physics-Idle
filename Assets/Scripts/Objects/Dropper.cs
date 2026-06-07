@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
-public class ObjectDropper : MonoBehaviour
+public class Dropper : MonoBehaviour
 {
     [SerializeField] private GameObject objectPrefab;
 

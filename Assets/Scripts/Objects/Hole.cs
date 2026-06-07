@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
-public class ObjectConsumer : MonoBehaviour
+public class Hole : MonoBehaviour
 {
     private Collider2D holeCollider;
 
