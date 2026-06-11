@@ -8,10 +8,16 @@ public class ConveyorManager : UpgradeManager<ConveyorManager>
     [SerializeField] private Transform leftDespawn;
     [SerializeField] private Transform rightDespawn;
 
-    private float conveyorSpeed;
-    private float conveyorSpawnRate;
+    public float conveyorSpeed {get; private set;}
+    public float conveyorSpawnRate { get; private set; }
 
     private float spawnTimer;
+
+    public void InitializeStats(SaveData saveData)
+    {
+        conveyorSpeed = saveData.conveyorSpeed;
+        conveyorSpawnRate = saveData.conveyorSpawnRate;
+    }
 
     private void Update()
     {

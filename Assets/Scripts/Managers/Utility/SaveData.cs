@@ -1,11 +1,10 @@
 using System;
-using UnityEditor;
 
 [Serializable]
 public class SaveData
 {
     // Currencies
-    public float money;
+    public double money;
 
     // Object Upgrades
     public float objectValue;
