@@ -26,6 +26,7 @@ public abstract class Manager<T> : MonoBehaviour
         // TODO: Implement - This method should be overridden by derived classes
         // to initialize their specific stats.
         ConveyorManager.Instance.InitializeStats(SaveData);
+        DropperManager.Instance.InitializeStats(SaveData);
     }
 
     protected virtual void WriteToSave()

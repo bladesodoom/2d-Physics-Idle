@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
         CurrencyManager.Instance.InitializeStats(data);
         Debug.Log($"[GameManager] Save applied — money: {data.money}  last save: {data.lastSaveTime}");
         ConveyorManager.Instance.InitializeSave(data);
+        DropperManager.Instance.InitializeSave(data);
     }
 
 

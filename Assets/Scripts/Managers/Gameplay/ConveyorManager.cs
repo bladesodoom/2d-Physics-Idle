@@ -35,6 +35,6 @@ public class ConveyorManager : UpgradeManager<ConveyorManager>
         Conveyor conveyor = conveyorObj.GetComponent<Conveyor>();
         bool moveLeft = Random.value > 0.5f;
         Transform despawnPoint = moveLeft ? leftDespawn : rightDespawn;
-        conveyor.InitializeOBJ(conveyorSpeed, moveLeft, despawnPoint);
+        conveyor.InitializeConveyor(conveyorSpeed, moveLeft, despawnPoint);
     }
 }

@@ -6,7 +6,7 @@ public class Conveyor : MonoBehaviour
     public bool isMovingLeft { get; private set; }
     public Transform despawnPoint { get; private set; }
 
-    public void InitializeOBJ(float moveSpeed, bool direction, Transform despawn)
+    public void InitializeConveyor(float moveSpeed, bool direction, Transform despawn)
     {
         this.moveSpeed = moveSpeed;
         this.isMovingLeft = direction;

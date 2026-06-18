@@ -6,12 +6,11 @@ public class Ball : MonoBehaviour
     [Header("Stats")]
     public float value { get; private set; }
     public float size { get; private set; }
-    public float spawnRateFactor { get; private set; }
     public int maxQuantity {get; private set; }
 
-    public void InitializeStats(float saveValue, float saveSize, float saveSpawnRate, int saveMaxQuantity)
+    public void InitializeStats(float saveValue, float saveSize, int saveMaxQuantity)
     {
-        value = saveValue; size = saveSize; spawnRateFactor = saveSpawnRate; maxQuantity = saveMaxQuantity;
+        value = saveValue; size = saveSize; maxQuantity = saveMaxQuantity;
     }
 
     private void OnCollisionEnter2D(Collision2D other)

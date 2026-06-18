@@ -2,5 +2,15 @@ using UnityEngine;
 
 public class DropperManager : UpgradeManager<DropperManager>
 {
-    // TODO: Implement - This class should manage the dropper's stats and upgrades
+    public float spawnRate { get; private set; }
+    public void InitializeStats(SaveData saveData)
+    {
+        spawnRate = saveData.spawnRate;
+    }
+
+    public void UpgradeSpawnRate()
+    {
+        spawnRate *= 1.1f;
+        WriteToSave();
+    }
 }
