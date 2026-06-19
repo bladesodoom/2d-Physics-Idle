@@ -19,16 +19,17 @@ public abstract class Manager<T> : MonoBehaviour
     public virtual void InitializeSave(SaveData saveData)
     {
         SaveData = saveData;
+        InitializeStats();
     }
     protected virtual void InitializeStats()
     {
-        // TODO: Implement - This method should be overridden by derived classes
-        // to initialize their specific stats.
+        // This method should be overridden by derived classes
+        // to load their specific stats from the SaveData object.
     }
 
     protected virtual void WriteToSave()
     {
-        // TODO: Implement - This method should be overridden by derived classes
+        // This method should be overridden by derived classes
         // to save their specific stats back to the SaveData object.
     }
 }

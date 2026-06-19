@@ -17,6 +17,8 @@ public class Dropper : MonoBehaviour
 
     public void Update()
     {
+        if (DropperManager.Instance == null || DropperManager.Instance.spawnRate <= 0) return;
+
         timer += Time.deltaTime;
         if (timer >= DropperManager.Instance.spawnRate)
         {
@@ -25,7 +27,7 @@ public class Dropper : MonoBehaviour
         }
     }
 
-    private void SpawnBall ()
+    private void SpawnBall()
     {
         Vector3 spawnPositon = GetRandomPosition();
         GameObject newObject = Instantiate(ballPrefab, spawnPositon, Quaternion.identity);

@@ -4,9 +4,9 @@ public class CurrencyManager : Manager<CurrencyManager>
 {
     public double currentMoney { get; private set; }
 
-    public void InitializeStats(SaveData saveData)
+    protected override void InitializeStats()
     {
-        currentMoney = saveData.money;
+        currentMoney = base.SaveData.money;
     }
 
     public void AddMoney(double amount)
@@ -19,6 +19,7 @@ public class CurrencyManager : Manager<CurrencyManager>
         if (!HasEnoughMoney(amount))
         {
             Debug.LogWarning("Not enough money to remove!");
+            return;
         }
         currentMoney -= amount;
     }

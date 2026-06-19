@@ -27,6 +27,8 @@ public class Conveyor : MonoBehaviour
 
     private void CheckDespawn()
     {
+        if (despawnPoint == null) return;
+
         if (isMovingLeft)
         {
             if (transform.position.x <= despawnPoint.position.x)

@@ -1,23 +1,11 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Manager<GameManager>
 {
-    public static GameManager Instance;
-
     [SerializeField] private SaveManager saveManager;
 
     public SaveData CurrentSave { get; private set; }
-
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-    }
 
     private async void Start()
     {
@@ -30,14 +18,15 @@ public class GameManager : MonoBehaviour
         ApplySave(CurrentSave);
     }
 
-    private void ApplySave(SaveData data)
+    private void ApplySave(SaveData saveData)
     {
-        CurrencyManager.Instance.InitializeStats(data);
-        Debug.Log($"[GameManager] Save applied — money: {data.money}  last save: {data.lastSaveTime}");
-        ConveyorManager.Instance.InitializeSave(data);
-        DropperManager.Instance.InitializeSave(data);
+        BallManager.Instance.InitializeSave(saveData);
+        ConveyorManager.Instance.InitializeSave(saveData);
+        DropperManager.Instance.InitializeSave(saveData);
+        MultiplierManager.Instance.InitializeSave(saveData);
+        ObstacleManager.Instance.InitializeSave(saveData);
+        CurrencyManager.Instance.InitializeSave(saveData);
     }
-
 
     public async Task SaveAsync()
     {

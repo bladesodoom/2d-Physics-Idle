@@ -3,13 +3,16 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class Obstacle : MonoBehaviour
 {
-    [Header("Stats")]
-    [SerializeField] private float value;
-    public float Value { get => value; }
+    private float value;
+    private float size;
 
-    public void InitializeObstacle(float val = 1, float size = 3)
+    public float Value { get => value; }
+    public float Size { get => size; }
+
+    public void InitializeObstacle(float val = 1, float siz = 3)
     {
         value = val;
+        size = siz;
     }
 
     public void IncreaseValue()

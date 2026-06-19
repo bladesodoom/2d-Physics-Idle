@@ -36,6 +36,7 @@ public class SaveData
             ballSize = 2,
             ballMaxQuantity = 20,
             obstacleValue = 0f,
+            spawnRate = 2f,
             conveyorSpeed = 1f,
             conveyorSpawnRate = 2f,
             lastSaveTime = DateTime.Now.ToString()

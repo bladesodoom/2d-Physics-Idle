@@ -155,5 +155,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c94d4a716fbee174696f84b465baff41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectDropper
-  objectPrefab: {fileID: 8919074810894677057, guid: 505a0bc682aab0746978bc1a30525905, type: 3}
-  spawnRate: 0.5
+  ballPrefab: {fileID: 8919074810894677057, guid: 505a0bc682aab0746978bc1a30525905, type: 3}

@@ -14,6 +14,8 @@ public class Hole : MonoBehaviour
     {
         if (other.gameObject.CompareTag("FObject"))
         {
+            Ball ball = other.gameObject.GetComponent<Ball>();
+            CurrencyManager.Instance.AddMoney(ball.value);
             Destroy(other.gameObject);
         }
     }

@@ -21,7 +21,9 @@ public class ConveyorManager : UpgradeManager<ConveyorManager>
 
     private void Update()
     {
-        spawnTimer += Time.deltaTime;
+        if (conveyorSpawnRate <= 0f)
+            return;
+    spawnTimer += Time.deltaTime;
         if (spawnTimer >= conveyorSpawnRate)
         {
             SpawnConveyor();
