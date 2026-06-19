@@ -13,10 +13,10 @@ public class ConveyorManager : UpgradeManager<ConveyorManager>
 
     private float spawnTimer;
 
-    public void InitializeStats(SaveData saveData)
+    protected override void InitializeStats()
     {
-        conveyorSpeed = saveData.conveyorSpeed;
-        conveyorSpawnRate = saveData.conveyorSpawnRate;
+        conveyorSpeed = base.SaveData.conveyorSpeed;
+        conveyorSpawnRate = base.SaveData.conveyorSpawnRate;
     }
 
     private void Update()

@@ -3,14 +3,19 @@ using UnityEngine;
 public class DropperManager : UpgradeManager<DropperManager>
 {
     public float spawnRate { get; private set; }
-    public void InitializeStats(SaveData saveData)
+    protected override void InitializeStats()
     {
-        spawnRate = saveData.spawnRate;
+        spawnRate = base.SaveData.spawnRate;
     }
 
     public void UpgradeSpawnRate()
     {
         spawnRate *= 1.1f;
         WriteToSave();
+    }
+
+    protected override void WriteToSave()
+    {
+        base.SaveData.spawnRate = spawnRate;
     }
 }
