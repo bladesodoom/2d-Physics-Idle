@@ -22,7 +22,8 @@ public class Dropper : MonoBehaviour
         timer += Time.deltaTime;
         if (timer >= DropperManager.Instance.spawnRate)
         {
-            SpawnBall();
+            if (BallManager.Instance.CanSpawnBall)
+                SpawnBall();
             timer = Time.deltaTime;
         }
     }

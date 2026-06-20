@@ -7,12 +7,12 @@ public class SaveData
     public double money;
 
     // Ball Upgrades
-    public float ballValue;
+    public double ballValue;
     public float ballSize;
     public int ballMaxQuantity;
 
     // Obstacle Upgrades
-    public float obstacleValue;
+    public double obstacleValue;
 
     // Dropper Upgrades
     public float spawnRate;

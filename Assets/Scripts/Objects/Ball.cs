@@ -4,13 +4,20 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     [Header("Stats")]
-    public float value { get; private set; }
-    public float size { get; private set; }
-    public int maxQuantity {get; private set; }
+    public double value { get; private set; }
+    private float size;
 
-    public void InitializeStats(float saveValue, float saveSize, int saveMaxQuantity)
+    private void Start()
     {
-        value = saveValue; size = saveSize; maxQuantity = saveMaxQuantity;
+        value = BallManager.Instance.ballValue;
+        size = BallManager.Instance.ballSize;
+
+        BallManager.Instance.RegisterBall();
+    }
+
+    private void OnDestroy()
+    {
+        BallManager.Instance.UnregisterBall();
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -18,18 +25,10 @@ public class Ball : MonoBehaviour
         if (other.gameObject.CompareTag("Obstacle"))
         {
             Obstacle obstacle = other.gameObject.GetComponent<Obstacle>();
-            float amount = obstacle.Value;
-            IncreaseValue(amount);
+            IncreaseValue(obstacle.Value);
         }
     }
 
-    public void IncreaseValue(float amount)
-    {
-        value += amount;
-    }
-
-    public void DecreaseValue(float amount)
-    {
-        value = Mathf.Max(0, value - amount);
-    }
+    public void IncreaseValue(double amount) => value += amount;
+    public void DecreaseValue(double amount) => value -= amount;
 }
